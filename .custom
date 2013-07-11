@@ -86,3 +86,5 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
 alias ssh='ssh -YCc blowfish'
+
+alias py=ipython2
