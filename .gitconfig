@@ -1,0 +1,10 @@
+[user]
+	name = Jose Rodriguez
+	email = jmrbcu@gmail.com
+[credential]
+	helper = cache --timeout=3600
+[core]
+	editor = vim
+	pager = most
+[color]
+	ui = true
