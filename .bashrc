@@ -54,8 +54,6 @@ if [ ! -z "$VIM" ] && [ -e "$VIM" ]; then
 fi
 
 
-
-
 alias h='history | grep $1'
 alias du="du -h -s"
 alias df="df -h"
@@ -64,9 +62,10 @@ alias ...='cd ../..'
 alias cd..='cd ..'
 
 alias py=ipython2
+alias py2=python
 
 # PATH
-export PATH=$PATH:~/.local/bin
+export PATH=~/.local/bin:/usr/local/share/python:/usr/local/bin:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
