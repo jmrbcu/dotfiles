@@ -61,7 +61,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
 
-alias py=ipython2
+alias py=ipython
 alias py2=python
 
 # PATH
@@ -70,6 +70,9 @@ export PATH=~/.local/bin:/usr/local/share/python:/usr/local/bin:$PATH
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
     alias ls='ls -hlaG'
+
+    # Homebrew support 
+    export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
 else 
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
