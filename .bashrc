@@ -77,8 +77,8 @@ if [ "$(uname)" == "Darwin" ]; then
     # PHP Support
     export PATH="$(brew --prefix josegonzalez/php/php55)/bin:$PATH"
 
-    if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-        . $(brew --prefix)/share/bash-completion/bash_completion
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+        . $(brew --prefix)/etc/bash_completion
     fi
 else 
     # Do something under Linux platform
