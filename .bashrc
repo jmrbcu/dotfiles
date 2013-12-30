@@ -75,7 +75,7 @@ if [ "$(uname)" == "Darwin" ]; then
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
 
     # PHP Support
-    export PATH="$(brew --prefix josegonzalez/php/php55)/bin:/usr/local/bin:$PATH"
+    export PATH="$(brew --prefix josegonzalez/php/php55)/bin:$PATH"
 else 
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
