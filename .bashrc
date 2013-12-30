@@ -65,7 +65,7 @@ alias py=ipython
 alias py2=python
 
 # PATH
-export PATH=~/.local/bin:/usr/local/share/python:/usr/local/bin:$PATH
+export PATH=~/.local/bin:/usr/local/bin:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
@@ -73,6 +73,9 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # Homebrew support 
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
+
+    # PHP Support
+    export PATH="$(brew --prefix josegonzalez/php/php55)/bin:/usr/local/bin:$PATH"
 else 
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
