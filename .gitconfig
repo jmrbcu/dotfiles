@@ -6,14 +6,13 @@
 [core]
 	editor = vim
 	pager = most
-	excludesfile = /Users/jmrbcu/.gitignore_global
+    # excludesfile = /Users/jmrbcu/.gitignore_global
 [color]
 	ui = true
 [push]
 	default = simple
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = [mergetool "sourcetree"]
+    cmd = /Applications/SourceTree.app/Contents/Resources  /opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\" 
+    trustExitCode = true   
