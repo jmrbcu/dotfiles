@@ -65,13 +65,14 @@ alias py=ipython
 alias py2=python
 
 # PATH
-export PATH=~/.local/bin:/usr/local/bin:$PATH
+export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$PATH:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
     alias ls='ls -hlaG'
 
-    # Homebrew support 
+    # Homebrew support
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
 
     # PHP Support
@@ -80,7 +81,7 @@ if [ "$(uname)" == "Darwin" ]; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
         . $(brew --prefix)/etc/bash_completion
     fi
-else 
+else
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
     if ! shopt -oq posix; then
