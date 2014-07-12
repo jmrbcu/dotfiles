@@ -65,8 +65,7 @@ alias py=ipython
 alias py2=python
 
 # PATH
-export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$PATH:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64
+export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/tools:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/platform-tools:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
