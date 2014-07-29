@@ -65,7 +65,7 @@ alias py=ipython
 alias py2=python
 
 # PATH
-export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/tools:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/platform-tools:$PATH
+export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:~/Applications:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/tools:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/platform-tools:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
@@ -73,9 +73,6 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # Homebrew support
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
-
-    # PHP Support
-    export PATH="$(brew --prefix josegonzalez/php/php55)/bin:$PATH"
 
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
         . $(brew --prefix)/etc/bash_completion
