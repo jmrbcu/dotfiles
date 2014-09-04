@@ -73,10 +73,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # Homebrew support
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
-
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-        . $(brew --prefix)/etc/bash_completion
-    fi
+    . /usr/local/etc/bash_completion
 else
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
