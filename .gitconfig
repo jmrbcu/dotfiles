@@ -10,3 +10,5 @@
     # excludesfile = /Users/jmrbcu/.gitignore_global
 [color]
 	ui = true
+[push]
+	default = simple
