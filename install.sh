@@ -52,6 +52,9 @@ ln -sf `pwd`/.gitconfig ~/.gitconfig
 ln -sf `pwd`/.gitignore ~/.gitignore
 
 # bash configuration files
+mv ~/.bashrc ~/.bashrc_old
+mv ~/.profile ~/.profile_old
+
 ln -sf `pwd`/.bashrc ~/.bashrc
 ln -sf `pwd`/.inputrc ~/.inputrc
 ln -sf `pwd`/.profile ~/.profile
