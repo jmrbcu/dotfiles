@@ -5,7 +5,6 @@
 	helper = cache --timeout=3600
 [core]
 	editor = vim
-	pager = most
 	excludesfile = /Users/jmrbcu/.gitignore_global
     # excludesfile = /Users/jmrbcu/.gitignore_global
 [color]
