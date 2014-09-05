@@ -29,6 +29,16 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # zsh
     brew install zsh
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+
+    for rcfile in `ls "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*`; do
+      ln -s $rcfile ~/.${rcfile##*/};
+    done
+
+    cp zpresto_config/* ~/.zprezto/runcoms/
+
+    # change the shell to zsh
+    chsh -s /bin/zsh
 
     # vim
     brew install --override-system-vi vim
@@ -59,20 +69,6 @@ ln -sf `pwd`/.bashrc ~/.bashrc
 ln -sf `pwd`/.inputrc ~/.inputrc
 ln -sf `pwd`/.profile ~/.profile
 ln -sf `pwd`/.dircolors ~/.dircolors
-
-# zprezto for zsh
-git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-
-setopt EXTENDED_GLOB
-for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-done
-
-cp zprezto_config/* ~/.zprezto/runcoms/
-
-# change the shell to zsh
-chsh -s /bin/zsh
-
 
 # vim configuration
 git clone https://github.com/timss/vimconf.git ~/.vim
