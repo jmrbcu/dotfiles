@@ -4,10 +4,14 @@ if [ "$(uname)" == "Darwin" ]; then
     xcode-select --install
 
     # install homebrew
-    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew doctor
 
-    # install a lot of apps
+    # add some brew repositories
+    brew tap caskroom/cask
+    brew update
+
+    # install a lot of apps 
     brew install mc xz elinks bash-completion
     brew install git
 
