@@ -1,16 +1,10 @@
-#
 # ~/.bashrc
-#
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# be paranoid
-if [ $(id -u) != 0 ]; then
-    umask 0077
-else
-    umask 0022
-fi
+# set the umaks just in case
+umask 0022
 
 
 # Test for an interactive shell.  There is no need to set anything
@@ -60,20 +54,35 @@ alias df="df -h"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
-
 alias py=ipython
 alias py2=python
 
 # PATH
-export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:~/Applications:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/tools:/Users/jmrbcu/Library/Developer/Xamarin/android-sdk-macosx/platform-tools:$PATH
+export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH
+
+# virtualenv
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+source /usr/local/bin/virtualenvwrapper.sh
 
 if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
     alias ls='ls -hlaG'
 
+    # browser
+    export BROWSER='open'
+
     # Homebrew support
     export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
+
+    # java
+    export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
+
+    # bash completion
     . /usr/local/etc/bash_completion
+
+    # platform dependent paths
+    export PATH=~/Applications:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Applications/Android\ Studio.app/sdk/tools:/Applications/Android\ Studio.app/sdk/platform-tools$PATH
 else
     # Do something under Linux platform
     alias ls='ls -hla --color=auto'
