@@ -31,6 +31,9 @@ export HISTCONTROL=ignoreboth
 # I want a lot..
 export HISTFILESIZE=1000
 
+# nice colors for ls
+export LSCOLORS=ExFxBxDxCxegedabagacad
+
 # my PS1
 if [ $(id -u) -eq 0 ]; then
     PS1="[\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;33m\]\h\[\e[0m\]][\[\e[1;32m\]\@\[\e[0m\]][\[\e[1;36m\]\w\[\e[0m\]] "
