@@ -31,7 +31,7 @@ export HISTCONTROL=ignoreboth
 # I want a lot..
 export HISTFILESIZE=1000
 
-# nice colors for ls
+# Nice colors for ls
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # my PS1
@@ -42,58 +42,92 @@ else
     # PS1="[\$(date +%H:%M)] [\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;32m\]\H\[\e[0m\] \[\e[1;1m\]\w\[\e[0m\]] [\!]\[\e[0;32m\]\$\[\e[0m\] "
 fi
 
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-# my lovely editor
-VIM="$(which vim)"
-if [ ! -z "$VIM" ] && [ -e "$VIM" ]; then
-    export EDITOR="vim -X"
-    alias vi='vim -X'
-fi
-
-
-alias h='history | grep $1'
+# Aliases
+alias rm="rm -f"
 alias du="du -h -s"
 alias df="df -h"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
 alias py=ipython
-alias py2=python
-
-# PATH
-export PATH=~/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # virtualenv
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source /usr/local/bin/virtualenvwrapper.sh
+source `which virtualenvwrapper.sh`
 
-if [ "$(uname)" == "Darwin" ]; then
-    # Do something under Mac OS X platform
-    alias ls='ls -hlaG'
-
-    # browser
+# Platform dependent config
+if [[ "$OSTYPE" == darwin* ]]; then
+    export EDITOR='vim'
+    export VISUAL='subl'
+    export PAGER='less'
     export BROWSER='open'
 
-    # Homebrew support
-    export HOMEBREW_GITHUB_API_TOKEN=4b3976b1c6d01d180716cd78c5c730d30be89365
+    path="
+        /usr/local/bin:
+        /usr/local/sbin:
+        ~/.local/bin:
+        /Users/jmrbcu/Development/android-sdk/tools:
+        /Users/jmrbcu/Development/android-sdk/platform-tools:
+        /{bin,sbin}:
+        /usr/{bin,sbin}:
+        /usr/local/opt/coreutils/libexec/gnubin:
+        /opt/X11/bin:
+        $path
+    "
 
-    # java
-    export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
+    manpath="
+        /usr/local/opt/coreutils/libexec/gnuman:
+        $manpath
+    "
+    for path_file in /etc/manpaths.d/*; do
+      manpath+=($(<$path_file))
+    done
+    unset path_file
 
-    # bash completion
-    . /usr/local/etc/bash_completion
+    # Aliases
+    alias ls="gls -hlAF --color=always --group-directories-first"
+    command -v gls >/dev/null 2>&1 || {
+      echo "gls command from coreutils package is not installed";
+      echo "Please, install it with brew, for now using default ls"
+      alias ls="ls -hlAGF"
+    }
 
-    # platform dependent paths
-    export PATH=~/Applications:/Applications/MPlayerX.app/Contents/Resources/MPlayerX.mplayer.bundle/Contents/Resources/x86_64:/Applications/Android\ Studio.app/sdk/tools:/Applications/Android\ Studio.app/sdk/platform-tools$PATH
+    # Finder
+    function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
+    function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
+
+    # Preferred editor for local and remote sessions
+    if [[ -n $SSH_CONNECTION ]]; then
+      export EDITOR='vim'
+    else
+      export EDITOR='subl'
+    fi
 else
-    # Do something under Linux platform
-    alias ls='ls -hla --color=auto'
+    export EDITOR='vim'
+    export VISUAL='vim'
+    export PAGER='less'
+
+    path="
+        /usr/local/{bin,sbin}:
+        ~/.local/bin:
+        /{bin,sbin}:
+        /usr/{bin,sbin}:
+        $path
+    "
+
+    # Aliases
+    alias ls="ls -hlAF --color=always --group-directories-first"
+
     if ! shopt -oq posix; then
-          if [ -f /usr/share/bash-completion/bash_completion ]; then
-              . /usr/share/bash-completion/bash_completion
-          elif [ -f /etc/bash_completion ]; then
-              . /etc/bash_completion
-          fi
+        if [ -f /usr/share/bash-completion/bash_completion ]; then
+          . /usr/share/bash-completion/bash_completion
+        elif [ -f /etc/bash_completion ]; then
+          . /etc/bash_completion
+        fi
     fi
 fi
