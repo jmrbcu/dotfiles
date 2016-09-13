@@ -73,6 +73,9 @@ fi
 # User configuration
 source $ZSH/oh-my-zsh.sh
 
+# make globbing work like in bash
+setopt nonomatch
+
 # set the umaks just in case
 umask 0022
 
