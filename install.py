@@ -1,4 +1,5 @@
 import os
+import platform
 import shutil
 import shlex
 import subprocess
@@ -36,12 +37,59 @@ def check_output(*popenargs, **kwargs):
     return output
 
 
-def install_ohmyzsh():
-    cmd = 'sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
+def is_zsh_installed():
+    with open('/etc/shells') as f:
+        return 'zsh' in f.read()
+
+
+def install_zsh():
+    system = platform.system().lower()
+    if 'darwin' in system:
+        cmd = 'brew install zsh'
+    elif 'linux' in system:
+        dist = platform.dist()[0].lower()
+        if dist in ('ubuntu', 'debian'):
+            cmd = 'sudo apt-get install -y zsh'
+        elif dist == 'centos':
+            cmd = 'sudo yum install -y zsh'
+        else:
+            raise RuntimeError('Cannot determine the system type, cannoy install zsh.')
+    else:
+        raise RuntimeError('Cannot determine the system type, cannot install zsh.')
 
     try:
-        output = check_output(shlex.split(cmd))
-        print yellow(output)
+        print yellow(check_output(shlex.split(cmd)))
+    except CalledProcessError as e:
+        print '{0}\n{1}'.format(red(e, True), yellow(e.output, True))
+
+
+def install_ohmyzsh():
+    def init_child_process():
+        os.setpgrp()
+        os.umask(022)
+
+    home = os.getenv('HOME')
+    if not home:
+        print red('Cannot find home directory, exiting...', True)
+        return
+
+    if not is_zsh_installed():
+        try:
+            install_zsh()
+        except RuntimeError as e:
+            print red(e.message, True)
+            return
+
+    zsh_dir = os.path.join(home, '.oh-my-zsh')
+    if os.path.exists(zsh_dir):
+        print red('You already have Oh My Zsh installed.', True)
+        print red('You will need to remove {0} if you want to re-install.'.format(zsh_dir), True)
+        return
+
+    try:
+        cmd = 'git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git {0}'.format(zsh_dir)
+        print yellow(check_output(shlex.split(cmd), preexec_fn=init_child_process), True)
+        os.system('chsh -s $(grep /zsh$ /etc/shells | tail -1)')
         return True
     except CalledProcessError as e:
         print '{0}\n{1}'.format(red(e, True), yellow(e.output, True))
@@ -65,11 +113,10 @@ def link_files(home):
 
 
 if __name__ == '__main__':
-    home = os.getenv('HOME')
-    if not home:
-        print red('Canot find home directory, exiting...')
+    home_dir = os.getenv('HOME')
+    if not home_dir:
+        print red('Cannot find home directory, exiting...')
         exit(1)
 
-    home = os.path.abspath(home)
     install_ohmyzsh()
-    link_files(home)
+    link_files(home_dir)
