@@ -109,7 +109,9 @@ def link_files(home):
             print yellow(msg.format(blue(full_filename, True), blue(full_filename + '.save', True)), True)
             shutil.move(full_filename, full_filename + '.save')
 
-        print yellow('Linking file: {0}'.format(blue(os.path.join(current, filename), True)), True)
+        print yellow(
+            'Linking file: {0} --> {1}'.format(blue(os.path.join(current, filename), True), blue(full_filename)), True
+        )
         os.symlink(os.path.join(current, filename), full_filename)
 
 
