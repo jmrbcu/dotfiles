@@ -59,7 +59,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         extract fabric git gitfast jsontools
         history-substring-search nmap osx python
         pip django rsync supervisor systemadmin
-        thefuck virtualenvwrapper themes docker
+        virtualenvwrapper themes docker
     )
 else
     plugins=(
