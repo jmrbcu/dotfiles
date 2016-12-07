@@ -5,7 +5,42 @@ import shutil
 import shlex
 import subprocess
 import fnmatch
-from colors import *
+
+
+def _wrap_with(code):
+    """
+    Decorator for wrapping strings in ANSI color codes.
+
+    Ej:
+        print green("This text is green!")
+        print red("This text is green!", bold=True)
+        print yellow("This text is green!", True)
+    """
+    def inner(text, bold=False):
+        c = code
+        if bold:
+            c = "1;%s" % c
+        return "\033[%sm%s\033[0m" % (c, text)
+    return inner
+
+
+gray = _wrap_with('30')
+red = _wrap_with('31')
+green = _wrap_with('32')
+yellow = _wrap_with('33')
+blue = _wrap_with('34')
+magenta = _wrap_with('35')
+cyan = _wrap_with('36')
+white = _wrap_with('37')
+
+light_gray = _wrap_with('30')
+light_red = _wrap_with('31')
+light_green = _wrap_with('32')
+light_yellow = _wrap_with('33')
+light_blue = _wrap_with('34')
+light_magenta = _wrap_with('35')
+light_cyan = _wrap_with('36')
+light_white = _wrap_with('37')
 
 
 class CalledProcessError(Exception):
@@ -54,9 +89,9 @@ def install_zsh():
         elif dist == 'centos':
             cmd = 'sudo yum install -y zsh'
         else:
-            raise RuntimeError('Cannot determine the system type, cannoy install zsh.')
+            raise RuntimeError(red('Cannot determine the system type, cannoy install zsh.'))
     else:
-        raise RuntimeError('Cannot determine the system type, cannot install zsh.')
+        raise RuntimeError(red('Cannot determine the system type, cannot install zsh.'))
 
     try:
         print yellow(check_output(shlex.split(cmd)))
@@ -71,30 +106,28 @@ def install_ohmyzsh():
 
     home = os.getenv('HOME')
     if not home:
-        print red('Cannot find home directory, exiting...', True)
-        return
+        raise RuntimeError(red('Cannot find home directory, exiting.'))
 
     if not is_zsh_installed():
-        try:
-            install_zsh()
-        except RuntimeError as e:
-            print red(e.message, True)
-            return
+        install_zsh()
 
     zsh_dir = os.path.join(home, '.oh-my-zsh')
     if os.path.exists(zsh_dir):
-        print red('You already have Oh My Zsh installed.', True)
-        print red('You will need to remove {0} if you want to re-install.'.format(zsh_dir), True)
-        return
+        raise RuntimeError(red('You already have Oh My Zsh installed. Remove {0} before install.'.format(zsh_dir)))
 
     try:
+        # clone zsh repo
         cmd = 'git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git {0}'.format(zsh_dir)
         print yellow(check_output(shlex.split(cmd), preexec_fn=init_child_process), True)
-        os.system('chsh -s $(grep /zsh$ /etc/shells | tail -1)')
-        return True
+
+        # link the config files
+        link_files(home)
+
+        # change the shell
+        if 'zsh' not in os.environ['SHELL']:
+            os.system('chsh -s $(grep /zsh$ /etc/shells | tail -1)')
     except CalledProcessError as e:
         print '{0}\n{1}'.format(red(e, True), yellow(e.output, True))
-        return False
 
 
 def link_files(home):
@@ -116,10 +149,4 @@ def link_files(home):
 
 
 if __name__ == '__main__':
-    home_dir = os.getenv('HOME')
-    if not home_dir:
-        print red('Cannot find home directory, exiting...')
-        exit(1)
-
     install_ohmyzsh()
-    link_files(home_dir)
