@@ -14,6 +14,8 @@
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
 	<integer>1</integer>
+	<key>BracketedPasteMode</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Atom</key>
@@ -10777,7 +10779,7 @@
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>482 247 796 473 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 63 1434 814 0 0 1440 877 </string>
+	<string>0 76 2554 1336 0 0 2560 1417 </string>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37_selection</key>
@@ -11608,7 +11610,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-27T01:52:22Z</date>
+	<date>2017-01-09T07:52:04Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -11630,7 +11632,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.9</string>
+	<string>3.0.13</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
