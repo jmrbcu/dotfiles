@@ -1,3 +1,26 @@
+# set the path before doing anything
+if [[ "$OSTYPE" == darwin* ]]; then
+    path=(
+        /usr/local/{bin,sbin}
+        ~/.local/bin
+        /Users/jmrbcu/Development/android-sdk/tools
+        /Users/jmrbcu/Development/android-sdk/platform-tools
+        /{bin,sbin}
+        /usr/{bin,sbin}
+        /usr/local/opt/coreutils/libexec/gnubin
+        /opt/X11/bin
+        $path
+    )
+else
+    path=(
+        /usr/local/{bin,sbin}
+        ~/.local/bin
+        /{bin,sbin}
+        /usr/{bin,sbin}
+        $path
+    )
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -114,18 +137,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export PAGER='less'
     export BROWSER='open'
 
-    path=(
-        /usr/local/{bin,sbin}
-        ~/.local/bin
-        /Users/jmrbcu/Development/android-sdk/tools
-        /Users/jmrbcu/Development/android-sdk/platform-tools
-        /{bin,sbin}
-        /usr/{bin,sbin}
-        /usr/local/opt/coreutils/libexec/gnubin
-        /opt/X11/bin
-        $path
-    )
-
     manpath=(
         /usr/local/opt/coreutils/libexec/gnuman
         $manpath
@@ -159,13 +170,6 @@ else
     export VISUAL='vim'
     export PAGER='less'
 
-    path=(
-        /usr/local/{bin,sbin}
-        ~/.local/bin
-        /{bin,sbin}
-        /usr/{bin,sbin}
-        $path
-    )
     # Aliases
     alias ls="ls -hlAF --color=always --group-directories-first"
 fi
