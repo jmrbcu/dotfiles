@@ -70,14 +70,16 @@ else
     )
 fi
 
-
-# try to fix virtualenvwrapper plugin
-export WORKON_HOME="~/.virtualenvs"
-WORKON_HOME="~/.virtualenvs"
-
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Development
+source /usr/local/bin/virtualenvwrapper.sh
+
+
 
 # make globbing work like in bash
 setopt nonomatch
