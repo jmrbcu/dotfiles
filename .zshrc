@@ -76,21 +76,15 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
+# common plugins
+plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools 
+         history-substring-search nmap python pip django rsync systemadmin 
+         virtualenvwrapper themes)
+
 if [[ "$OSTYPE" == darwin* ]]; then
-    plugins=(
-        adb brew colored-man-pages cp dircycle
-        extract fabric git gitfast jsontools
-        history-substring-search nmap osx python
-        pip django rsync supervisor systemadmin
-        virtualenvwrapper themes docker
-    )
+    plugins+=(osx docker)
 else
-    plugins=(
-        colored-man-pages cp dircycle extract fabric
-        git gitfast jsontools history-substring-search
-        nmap python pip django rsync supervisor systemadmin
-        virtualenvwrapper themes
-    )
+    plugins+=$plugis
 fi
 
 source $ZSH/oh-my-zsh.sh
