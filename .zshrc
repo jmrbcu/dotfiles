@@ -121,7 +121,6 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Aliases
 unalias ping
-alias rm="rm -f"
 alias du="du -h -s"
 alias df="df -h"
 alias py=ipython
