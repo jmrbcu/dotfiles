@@ -86,7 +86,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 else
     plugins+=$plugis
 fi
-echo $plugins
 
 source $ZSH/oh-my-zsh.sh
 
