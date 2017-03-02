@@ -1,6 +1,7 @@
 # set the path before doing anything
 if [[ "$OSTYPE" == darwin* ]]; then
     path=(
+        $path
         /usr/local/{bin,sbin}
         ~/.local/bin
         /Users/jmrbcu/Development/android-sdk/tools
@@ -9,15 +10,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
         /usr/{bin,sbin}
         /usr/local/opt/coreutils/libexec/gnubin
         /opt/X11/bin
-        $path
     )
 else
     path=(
+        $path
         /usr/local/{bin,sbin}
         ~/.local/bin
         /{bin,sbin}
         /usr/{bin,sbin}
-        $path
     )
 fi
 
