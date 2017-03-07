@@ -124,8 +124,8 @@ def install_ohmyzsh():
         print green('\tSymlinking file: {0} --> {1}'.format(cyan(zshrc), cyan(target)), True)
         check_output(shlex.split('ln -sf {0} {1}'.format(target, zshrc)))
 
-        target = os.path.join(current, 'jmrbcu.zsh-theme')
-        theme = os.path.join(home, '.oh-my-zsh/custom/themes/jmrbcu.zsh-theme')
+        target = os.path.join(current, 'custom.zsh-theme')
+        theme = os.path.join(home, '.oh-my-zsh/custom/themes/custom.zsh-theme')
         print green('\tSymlinking file: {0} --> {1}'.format(cyan(theme), cyan(target)), True)
         check_output(shlex.split('ln -sf {0} {1}'.format(target, theme)))
 
