@@ -168,3 +168,8 @@ else
     alias ls="ls -hlAF --color=always --group-directories-first"
 fi
 
+which archey >> /dev/null
+RETVAL=$?
+if [ $RETVAL -eq 0 ]; then
+    archey
+fi
