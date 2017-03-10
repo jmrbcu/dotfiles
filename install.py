@@ -127,6 +127,7 @@ def install_ohmyzsh():
         target = os.path.join(current, 'custom.zsh-theme')
         theme = os.path.join(home, '.oh-my-zsh/custom/themes/custom.zsh-theme')
         print green('\tSymlinking file: {0} --> {1}'.format(cyan(theme), cyan(target)), True)
+        check_output(shlex.split('mkdir -p {0}'.format(os.path.dirname(theme))))
         check_output(shlex.split('ln -sf {0} {1}'.format(target, theme)))
 
         # change the shell
