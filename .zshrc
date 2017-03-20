@@ -171,5 +171,5 @@ fi
 which archey >> /dev/null
 RETVAL=$?
 if [ $RETVAL -eq 0 ]; then
-    archey
+    archey -o
 fi
