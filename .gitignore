@@ -8,6 +8,7 @@
 .project
 .pydevproject
 .idea
+.vscode
 
 # C extensions
 *.so
