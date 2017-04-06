@@ -95,7 +95,7 @@ source $ZSH/oh-my-zsh.sh
 # virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Development
-source /usr/local/bin/virtualenvwrapper.sh
+source `which virtualenvwrapper.sh`
 
 # make globbing work like in bash
 setopt nonomatch
