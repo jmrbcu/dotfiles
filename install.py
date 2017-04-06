@@ -178,6 +178,19 @@ def install_vim():
     finally:
         print
 
+def install_extras():
+    try:
+        # install extra python modules
+        pymodules = ' '.join(('virtualenv', 'virtualenvwrapper'))
+        print green('\tInstalling python modules: {0}'.format(cyan(pymodules)), True)
+
+        cmd = 'pip install ' + pymodules
+        check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
+    except CalledProcessError as e:
+        print '{0}\n{1}'.format(red(e, True), green(e.output, True))
+    finally:
+        print
+
 
 def link_files():
     filenames = ('.bashrc', '.dircolors', '.inputrc', '.profile', '.Xdefaults')
@@ -200,5 +213,6 @@ def link_files():
 if __name__ == '__main__':
     install_vim()
     install_ohmyzsh()
+    install_extras()
     link_files()
     print green('Finished.', True)
