@@ -124,22 +124,17 @@ alias py=ipython
 function f() { find . -iname "*$1*" ${@:2} }
 function r() { grep "$1" ${@:2} -R . }
 function capture() {
-    if [ "$#" -eq 1 ]; then
-       ssh $1 "tcpdump -U -s0 -w -"| wireshark -k -i -;
-    fi
-
     if [ "$#" -eq 2 ]; then
-       ssh $1@$2 "tcpdump -U -s0 -w -"| wireshark -k -i -;
+       ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
     fi
 
     if [ "$#" -eq 3 ]; then
-       ssh -p $3 $1@$2 "tcpdump -U -s0 -w -"| wireshark -k -i -;
+       ssh $1@$2 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
     fi
 
-
-#        echo 'ssh -p $3 $host "tcpdump -U -s0 -w -"| wireshark -k -i -'
-
-#        echo 'ssh $host "tcpdump -U -s0 -w -"| wireshark -k -i -'
+    if [ "$#" -eq 4 ]; then
+       ssh -p $3 $1@$2 "tcpdump -i $4 -U -s0 -w -"| wireshark -k -i -;
+    fi
 }
 
 # Platform dependent config
