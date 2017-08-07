@@ -1,23 +1,24 @@
 # set the path before doing anything
 if [[ "$OSTYPE" == darwin* ]]; then
     path=(
-        $path
+        /usr/local/opt/python/libexec/bin
         /usr/local/{bin,sbin}
         ~/.local/bin
-        /Users/jmrbcu/Development/android-sdk/tools
-        /Users/jmrbcu/Development/android-sdk/platform-tools
+        /Users/jmrbcu/Development/Mobile/Android/SDK/tools
+        /Users/jmrbcu/Development/Mobile/Android/SDK/platform-tools
         /{bin,sbin}
         /usr/{bin,sbin}
         /usr/local/opt/coreutils/libexec/gnubin
         /opt/X11/bin
+        $path
     )
 else
     path=(
-        $path
         /usr/local/{bin,sbin}
         ~/.local/bin
         /{bin,sbin}
         /usr/{bin,sbin}
+        $path
     )
 fi
 
@@ -78,8 +79,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 
 # common plugins
-plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools 
-         history-substring-search nmap python pip django rsync systemadmin 
+plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools
+         history-substring-search nmap python pip django rsync systemadmin
          virtualenvwrapper themes)
 
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -186,4 +187,4 @@ RETVAL=$?
 if [ $RETVAL -eq 0 ]; then
     archey -o
 fi
-eval $(/usr/libexec/path_helper -s)
+
