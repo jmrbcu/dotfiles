@@ -86,7 +86,7 @@ plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx docker)
 else
-    plugins+=$plugis
+    plugins+=$plugins
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -156,6 +156,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 
     # Aliases
+
     alias ls="gls -hlAF --color=always --group-directories-first"
     command -v gls >/dev/null 2>&1 || {
       echo "gls command from coreutils package is not installed";
@@ -166,6 +167,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # Finder
     function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
     function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
+
+    # ADB
+    function adbGetFile() { adb exec-out run-as $1 cat $2 > `basename $2`; }
+    function adbRmFile() { adb exec-out run-as $1 rm $2; }
+    function adbLsFiles() { adb exec-out run-as $1 ls -hlAFtr --color=auto $2; }
+    function getRealm() { adbGetFile $1 files/$2.realm; }
+    function rmRealm() {  adbRmFile $1 files/$2.realm; }
+
 
     # Preferred editor for local and remote sessions
     if [[ -n $SSH_CONNECTION ]]; then
