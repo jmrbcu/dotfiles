@@ -81,7 +81,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # common plugins
 plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools
          history-substring-search nmap python pip django rsync systemadmin
-         virtualenvwrapper themes)
+         virtualenvwrapper themes gradle zsh-autosuggestions zsh-syntax-highlighting)
 
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx docker)

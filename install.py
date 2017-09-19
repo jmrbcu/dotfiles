@@ -130,6 +130,18 @@ def install_ohmyzsh():
         check_output(shlex.split('mkdir -p {0}'.format(os.path.dirname(theme))))
         check_output(shlex.split('ln -sf {0} {1}'.format(target, theme)))
 
+        # zsh syntax highlighting
+        path = os.path.join(zsh_dir, "custom/plugins/zsh-syntax-highlighting")
+        cmd = "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {0}".format(path)
+        print green('\Installing zsh syntax highlighting')
+        check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
+
+        # zsh autosuggestions
+        path = os.path.join(zsh_dir, "custom/plugins/zsh-autosuggestions")
+        cmd = "git clone https://github.com/zsh-users/zsh-autosuggestions.git {0}".format(path)
+        print green('\Installing zsh autosuggestions')
+        check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
+
         # change the shell
         if 'zsh' not in os.environ['SHELL']:
             os.system('chsh -s $(grep /zsh$ /etc/shells | tail -1)')
