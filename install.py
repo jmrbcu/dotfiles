@@ -76,6 +76,21 @@ def is_program_installed(name):
         return False
 
 
+def install_homebrew():
+    print green('Installing: {0}'.format(red('Homebrew', True)), True)
+
+    home = os.getenv('HOME')
+    if is_program_installed('brew'):
+        return
+
+    try:
+        cmd = '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+        check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
+    except CalledProcessError as e:
+        print '{0}\n{1}'.format(red(e, True), green(e.output, True))
+    finally:
+        print
+
 def install_program(name):
     system = platform.system().lower()
 
@@ -191,13 +206,33 @@ def install_vim():
         print
 
 def install_extras():
-    try:
-        # install extra python modules
-        pymodules = ' '.join(('virtualenv', 'virtualenvwrapper'))
-        print green('\tInstalling python modules: {0}'.format(cyan(pymodules)), True)
+    system = platform.system().lower()
+    if 'darwin' in system:
+        pymodules = "pip2 install --upgrade pip setuptools virtualenv virtualenvwrapper ipython"
+        console = 'coreutils cabextract p7zip unrar xz rpm mc htop archey bash-completion git subversion httpie lame mplayer ffmpeg ctags sox sqlite ssh-copy-id watch wget youtube-dl python --with-sphinx-doc'
+    elif 'linux' in system:
+        pymodules = ''
+        dist = platform.dist()[0].lower()
+        if dist in ('ubuntu', 'debian'):
+            pip = "pip2 install --upgrade pip setuptools virtualenv virtualenvwrapper ipython"
+            console = 'cabextract p7zip-full unrar xz-utils rpm mc htop bash-completion git httpie exuberant-ctags python-pip'
+        elif dist == 'centos':
+            console = 'cabextract p7zip unrar xz mc htop bash-completion git ctags'
+        else:
+            raise RuntimeError(red('Cannot determine the system type, cannot install zsh.'))
+    else:
+        raise RuntimeError(red('Cannot determine the system type, cannot install zsh.'))
 
-        cmd = 'pip install ' + pymodules
-        check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
+    try:
+        # install extra console apps
+        print green('\tInstalling console apps: {0}'.format(cyan(console)), True)
+        install_program(console)
+
+        # install extra python modules
+        if pymodules:
+            print green('\tInstalling python modules: {0}'.format(cyan(pymodules)), True)
+            cmd = 'pip install ' + pymodules
+            check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
     except CalledProcessError as e:
         print '{0}\n{1}'.format(red(e, True), green(e.output, True))
     finally:
@@ -223,6 +258,7 @@ def link_files():
 
 
 if __name__ == '__main__':
+    install_homebrew()
     install_vim()
     install_ohmyzsh()
     install_extras()
