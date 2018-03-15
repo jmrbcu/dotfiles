@@ -190,7 +190,7 @@ def install_vim():
         shutil.move(vimrc, backup)
 
     try:
-        # clone zsh repo
+        # clone vimconf repo
         cmd = 'git clone https://github.com/timss/vimconf.git {0}'.format(vim_dir)
         # print green(check_output(shlex.split(cmd), stderr=subprocess.STDOUT))
         check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
