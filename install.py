@@ -239,7 +239,7 @@ def install_extras():
         # install extra python modules
         if pymodules:
             print green('\tInstalling python modules: {0}'.format(cyan(pymodules)), True)
-            cmd = 'pip install --upgrade' + pymodules
+            cmd = 'pip install --upgrade ' + pymodules
             check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
     except CalledProcessError as e:
         print '{0}\n{1}'.format(red(e, True), green(e.output, True))
