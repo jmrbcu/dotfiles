@@ -186,7 +186,7 @@ fi
 clear
 
 # Execute archey if available
-command -v archey >/dev/null 2>&1 && {
-    archey -o
+command -v neofetch >/dev/null 2>&1 && {
+    neofetch
 }
 
