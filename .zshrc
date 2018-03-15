@@ -1,42 +1,23 @@
-# set the path before doing anything
-if [[ "$OSTYPE" == darwin* ]]; then
-    path=(
-        /usr/local/opt/python/libexec/bin
-        /usr/local/{bin,sbin}
-        ~/.local/bin
-        /Users/jmrbcu/Development/Mobile/Android/SDK/tools
-        /Users/jmrbcu/Development/Mobile/Android/SDK/platform-tools
-        /{bin,sbin}
-        /usr/{bin,sbin}
-        /usr/local/opt/coreutils/libexec/gnubin
-        /opt/X11/bin
-        $path
-    )
-else
-    path=(
-        /usr/local/{bin,sbin}
-        ~/.local/bin
-        /{bin,sbin}
-        /usr/{bin,sbin}
-        $path
-    )
-fi
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="steeef"
-#ZSH_THEME="gianu"
-#ZSH_THEME="afowler"
-ZSH_THEME="custom"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
+# CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -55,7 +36,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="false"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -63,7 +44,7 @@ ENABLE_CORRECTION="false"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -77,114 +58,135 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
-# common plugins
-plugins=(colored-man-pages cp dircycle extract fabric git gitfast jsontools
-         history-substring-search nmap python pip django rsync systemadmin
-         virtualenvwrapper themes gradle zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(
+    colored-man-pages cp dircycle extract fabric git gitfast jsontools
+    history-substring-search nmap python pip django rsync systemadmin
+    themes gradle zsh-autosuggestions zsh-syntax-highlighting
+)
 
 if [[ "$OSTYPE" == darwin* ]]; then
-    plugins+=(osx docker)
-else
-    plugins+=$plugins
+    plugins+=(osx xcode)
 fi
 
 source $ZSH/oh-my-zsh.sh
 
+
 # User configuration
 
-# make globbing work like in bash
-setopt nonomatch
-
-# set the umaks just in case
-umask 0022
+##############################################################################
+# Platform independent configuration                                         #
+##############################################################################
 
 # ssh
-export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
 
-# main editor and pager
+# Make zsh know about hosts already accessed by SSH
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+# Make globbing work like in bash
+setopt nonomatch
+
+# Disable asking confirmation for rm
+setopt rm_star_silent
+
+# Set the umask just in case
+umask 0022
+
+# Main editor and pager
 export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 
 # Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
-
-# virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Development
-source `which virtualenvwrapper.sh`
-
-
-# colors for ls
-export LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:';
-
+export LESS='-g -i -M -R -S -w -X -z-4'
 
 # Aliases
-unalias ping
 alias du="du -h -s"
 alias df="df -h"
-alias py=ipython
 
 # Functions
 function f() { find . -iname "*$1*" ${@:2} }
 function r() { grep "$1" ${@:2} -R . }
-function capture() {
-    if [ "$#" -eq 2 ]; then
-       ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
-    fi
 
-    if [ "$#" -eq 3 ]; then
-       ssh $1@$2 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
-    fi
-
-    if [ "$#" -eq 4 ]; then
-       ssh -p $3 $1@$2 "tcpdump -i $4 -U -s0 -w -"| wireshark -k -i -;
-    fi
+# Configure virtualenvwrapper if available
+command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PROJECT_HOME=$HOME/Development
+    source /usr/local/bin/virtualenvwrapper.sh
 }
 
-function adbGetFile() { adb exec-out run-as $1 cat $2 > `basename $2`; }
-function adbRmFile() { adb exec-out run-as $1 rm $2; }
-function adbLsFiles() { adb exec-out run-as $1 ls -hlAFtr --color=auto $2; }
-function getRealm() { adbGetFile $1 files/$2.realm; }
-function rmRealm() {  adbRmFile $1 files/$2.realm; }
-
-
-# Platform dependent config
+##############################################################################
+# Platform dependent configuration                                           #
+##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
-    export BROWSER='open'
+    # path
+    path=(/usr/local/{bin,sbin} $path)
 
-    manpath=(
-        /usr/local/opt/coreutils/libexec/gnuman
-        $manpath
-    )
+    # Add more zsh completions (brew install zsh-completions)
+    fpath=(/usr/local/share/zsh-completions $fpath)
+
+    # Add /etc/manpaths.d/ files to manpath
     for path_file in /etc/manpaths.d/*(.N); do
-      manpath+=($(<$path_file))
+        manpath+=($(<$path_file))
     done
     unset path_file
 
-
     # Aliases
-    alias ls="gls -hlAF --color=always --group-directories-first"
+    unalias ping
+
+    command -v ipython >/dev/null 2>&1 && {
+        alias py=ipython
+        alias py3=ipython
+    }
+
+    command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && {
+        alias py2="/usr/local/opt/ipython@5/bin/ipython"
+    }
+    
+    # Use GNU ls instead of BSD ls
+    alias ls="gls -hlF --color=always --group-directories-first"
+    alias lsh="gls -hlAF --color=always --group-directories-first"
     command -v gls >/dev/null 2>&1 || {
       echo "gls command from coreutils package is not installed";
       echo "Please, install it with brew, for now using default ls"
-      alias ls="ls -hlAGF"
+      alias ls="ls -hlGF"
+      alias lsh="ls -hlAGF"
     }
 
-    # Finder
+    # Functions
+    function adbGetFile() { adb exec-out run-as $1 cat $2 > `basename $2`; }
+    function adbRmFile() { adb exec-out run-as $1 rm $2; }
+    function adbLsFiles() { adb exec-out run-as $1 ls -hlAFtr --color=auto $2; }
+    function getRealm() { adbGetFile $1 files/$2.realm; }
+    function rmRealm() {  adbRmFile $1 files/$2.realm; }
+
+    # Finder: hide and show hidden files
     function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
     function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
+    function capture() {
+        if [ "$#" -eq 2 ]; then
+            ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
+        fi
+
+        if [ "$#" -eq 3 ]; then
+            ssh $1@$2 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
+        fi
+
+        if [ "$#" -eq 4 ]; then
+            ssh -p $3 $1@$2 "tcpdump -i $4 -U -s0 -w -"| wireshark -k -i -;
+        fi
+    }
 else
     # Aliases
-    alias ls="ls -hlAF --color=always --group-directories-first"
+    alias ls="ls -hlF --color=always --group-directories-first"
+    alias lsh="ls -hlAF --color=always --group-directories-first"
 fi
 
-which archey >> /dev/null
-RETVAL=$?
-if [ $RETVAL -eq 0 ]; then
+# clear screen
+clear
+
+# Execute archey if available
+command -v archey >/dev/null 2>&1 && {
     archey -o
-fi
+}
 
