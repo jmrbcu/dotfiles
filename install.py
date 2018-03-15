@@ -248,7 +248,7 @@ def install_extras():
 
 
 def link_files():
-    filenames = ('.bashrc', '.dircolors', '.inputrc', '.profile', '.Xdefaults')
+    filenames = ('.bashrc', '.dircolors', '.inputrc', '.profile', '.Xdefaults', '.gitconfig', '.gitignore')
     print green('Symlinking files: {0}'.format(red(filenames, True)), True)
 
     home = os.getenv('HOME')
