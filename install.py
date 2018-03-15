@@ -148,13 +148,13 @@ def install_ohmyzsh():
         # zsh syntax highlighting
         path = os.path.join(zsh_dir, "custom/plugins/zsh-syntax-highlighting")
         cmd = "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git {0}".format(path)
-        print green('\Installing zsh syntax highlighting')
+        print green('Installing zsh syntax highlighting')
         check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
 
         # zsh autosuggestions
         path = os.path.join(zsh_dir, "custom/plugins/zsh-autosuggestions")
         cmd = "git clone https://github.com/zsh-users/zsh-autosuggestions.git {0}".format(path)
-        print green('\Installing zsh autosuggestions')
+        print green('Installing zsh autosuggestions')
         check_output(shlex.split(cmd), stderr=subprocess.STDOUT, preexec_fn=init_child_process)
 
         # change the shell
@@ -208,16 +208,24 @@ def install_vim():
 def install_extras():
     system = platform.system().lower()
     if 'darwin' in system:
-        pymodules = "pip2 install --upgrade pip setuptools virtualenv virtualenvwrapper ipython"
-        console = 'coreutils cabextract p7zip unrar xz rpm mc htop archey bash-completion git subversion httpie lame mplayer ffmpeg ctags sox sqlite ssh-copy-id watch wget youtube-dl python --with-sphinx-doc'
+        pymodules = "virtualenv virtualenvwrapper"
+        console = (
+            'coreutils cabextract p7zip unrar xz rpm mc htop archey brew-cask-completion bash-completion '
+            'zsh-completions openssl openssl@1.1 python python@2 ipython ipython@5 git subversion httpie '
+            'mplayer lame ffmpeg ctags sox sqlite ssh-copy-id watch wget speedtest-cli youtube-dl '
+        )
     elif 'linux' in system:
         pymodules = ''
         dist = platform.dist()[0].lower()
         if dist in ('ubuntu', 'debian'):
-            pip = "pip2 install --upgrade pip setuptools virtualenv virtualenvwrapper ipython"
-            console = 'cabextract p7zip-full unrar xz-utils rpm mc htop bash-completion git httpie exuberant-ctags python-pip'
+            pymodules = "virtualenv virtualenvwrapper"
+            console = (
+                'cabextract p7zip-full unrar xz-utils rpm mc htop bash-completion git httpie '
+                'exuberant-ctags python-pip ipython'
+            )
         elif dist == 'centos':
-            console = 'cabextract p7zip unrar xz mc htop bash-completion git ctags'
+            pymodules = "httpie virtualenv virtualenvwrapper"
+            console = 'cabextract p7zip unrar xz mc htop bash-completion git ctags python-ipython-console'
         else:
             raise RuntimeError(red('Cannot determine the system type, cannot install zsh.'))
     else:
