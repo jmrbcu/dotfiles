@@ -210,7 +210,7 @@ def install_extras():
     if 'darwin' in system:
         pymodules = "virtualenv virtualenvwrapper"
         console = (
-            'coreutils cabextract p7zip unrar xz rpm mc htop archey brew-cask-completion bash-completion '
+            'coreutils cabextract p7zip unrar xz rpm mc htop neofetch brew-cask-completion bash-completion '
             'zsh-completions openssl openssl@1.1 python python@2 ipython ipython@5 git subversion httpie '
             'mplayer lame ffmpeg ctags sox sqlite ssh-copy-id watch wget speedtest-cli youtube-dl '
         )
@@ -244,7 +244,11 @@ def install_extras():
     except CalledProcessError as e:
         print '{0}\n{1}'.format(red(e, True), green(e.output, True))
     finally:
-        print
+        print (
+            'If you are using a Linux distro, please, install "neofetch" if you want to '
+            'display a nice logo when entering a terminal session!.\n'
+            'For more info, refer to: https://github.com/dylanaraps/neofetch/wiki/Installation'
+        )
 
 
 def link_files():
