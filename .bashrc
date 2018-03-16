@@ -70,21 +70,21 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done
 
     # Aliases
+    alias py='echo "ipython for python v3 is not installed, please install ipython with the following command: brew install ipython"'
     command -v ipython >/dev/null 2>&1 && {
         alias py=ipython
-        alias py3=ipython
     }
 
+    alias py2='echo "ipython for python v2 is not installed, please install ipython@5 with the following command: brew install ipython@5"'
     command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && {
         alias py2="/usr/local/opt/ipython@5/bin/ipython"
     }
-    
+
     # Use GNU ls instead of BSD ls
     alias ls="gls -hlF --color=always --group-directories-first"
     alias lsh="gls -hlAF --color=always --group-directories-first"
     command -v gls >/dev/null 2>&1 || {
-      echo "gls command from coreutils package is not installed";
-      echo "Please, install it with brew, for now using default ls"
+      echo "gls command from coreutils package is not installed, using default ls for now, please, install it with: brew install coreutils";
       alias ls="ls -hlGF"
       alias lsh="ls -hlAGF"
     }
