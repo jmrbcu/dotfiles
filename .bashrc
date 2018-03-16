@@ -121,7 +121,7 @@ fi
 # Clear screen
 clear
 
-# Execute archey if available
-command -v archey >/dev/null 2>&1 && {
-    archey -o
+# Execute neofetch if available
+command -v neofetch >/dev/null 2>&1 && {
+    neofetch
 }
