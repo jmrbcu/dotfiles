@@ -120,7 +120,7 @@ command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
 ##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
     # path
-    path=(/usr/local/{bin,sbin} $path)
+    path=(/usr/local/{bin,sbin} $HOME/.local/bin $path)
 
     # Add more zsh completions (brew install zsh-completions)
     fpath=(/usr/local/share/zsh-completions $fpath)
