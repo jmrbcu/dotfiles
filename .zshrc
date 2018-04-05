@@ -108,13 +108,6 @@ alias df="df -h"
 function f() { find . -iname "*$1*" ${@:2} }
 function r() { grep "$1" ${@:2} -R . }
 
-# Configure virtualenvwrapper if available
-command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME=$HOME/Development
-    source /usr/local/bin/virtualenvwrapper.sh
-}
-
 ##############################################################################
 # Platform dependent configuration                                           #
 ##############################################################################
@@ -151,6 +144,13 @@ if [[ "$OSTYPE" == darwin* ]]; then
       echo "gls command from coreutils package is not installed, using default ls for now, please, install it with: brew install coreutils";
       alias ls="ls -hlGF"
       alias lsh="ls -hlAGF"
+    }
+
+    # Configure virtualenvwrapper if available
+    command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
+        export WORKON_HOME=$HOME/.virtualenvs
+        export PROJECT_HOME=$HOME/Development
+        source /usr/local/bin/virtualenvwrapper.sh
     }
 
     # Functions
