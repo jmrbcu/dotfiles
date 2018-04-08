@@ -10740,8 +10740,6 @@
 	<true/>
 	<key>NSFontPanelAttributes</key>
 	<string>1, 4</string>
-	<key>NSNavLastRootDirectory</key>
-	<string>~/Documents</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSNavPanelExpandedSizeForSaveMode</key>
@@ -10787,9 +10785,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>3530 798 620 392 2560 0 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>3560 1016 918 401 2560 0 2560 1440 </string>
+	<string>3560 923 918 494 2560 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>3312 210 1450 1047 2560 0 2560 1440 </string>
+	<string>394 202 1450 1047 0 0 1440 900 </string>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37_selection</key>
@@ -11517,7 +11515,7 @@
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
-			<false/>
+			<true/>
 			<key>Use Bold Font</key>
 			<true/>
 			<key>Use Bright Bold</key>
@@ -11616,7 +11614,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-03-15T19:14:55Z</date>
+	<date>2018-04-04T22:07:36Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
