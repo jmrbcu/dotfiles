@@ -10740,8 +10740,10 @@
 	<true/>
 	<key>NSFontPanelAttributes</key>
 	<string>1, 4</string>
+	<key>NSNavLastRootDirectory</key>
+	<string>~/Development/Color Themes/RainGlow-iTerm/themes</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 448}</string>
+	<string>{1195, 752}</string>
 	<key>NSNavPanelExpandedSizeForSaveMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -10759,7 +10761,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdKGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAc7Gdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -10785,9 +10787,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>3530 798 620 392 2560 0 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>3560 923 918 494 2560 0 2560 1440 </string>
+	<string>1212 525 918 381 0 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>394 202 1450 1047 0 0 1440 900 </string>
+	<string>0 51 1434 826 0 0 1440 900 </string>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_D7B56A96-276A-4856-BB22-893D7BFA4F37_selection</key>
@@ -10882,13 +10884,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.99903517961502075</real>
+				<real>1</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.91120541095733643</real>
+				<real>0.95686274766921997</real>
 				<key>Red Component</key>
-				<real>0.34396907687187195</real>
+				<real>0.86274510622024536</real>
 			</dict>
 			<key>Ansi 15 Color</key>
 			<dict>
@@ -11614,7 +11616,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-04-04T22:07:36Z</date>
+	<date>2018-04-06T22:07:35Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
