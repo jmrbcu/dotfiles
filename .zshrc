@@ -126,6 +126,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
     # Aliases
     unalias ping
+    alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
+    alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
 
     alias py='echo "ipython for python v3 is not installed, please install ipython with the following command: brew install ipython"'
     command -v ipython >/dev/null 2>&1 && {
