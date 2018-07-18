@@ -77,6 +77,15 @@ source $ZSH/oh-my-zsh.sh
 # Platform independent configuration                                         #
 ##############################################################################
 
+# path
+custom=(/usr/local/{bin,sbin} $HOME/.local/bin)
+for p in $custom; do
+    if [[ -d $p ]]; then
+        path=($p $path)
+        echo $p
+    fi
+done
+
 # ssh
 export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
 
@@ -112,8 +121,11 @@ function r() { grep "$1" ${@:2} -R . }
 # Platform dependent configuration                                           #
 ##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
-    # path
-    path=(/usr/local/{bin,sbin} $HOME/.local/bin $path)
+    # test if android SDK exits and add the platform tools to the path
+    ANDROID_SDK=~/Development/Mobile/Android/SDK/platform-tools
+    if [[ -d $ANDROID_SDK ]]; then
+        path=($ANDROID_SDK $path)
+    fi
 
     # Add more zsh completions (brew install zsh-completions)
     fpath=(/usr/local/share/zsh-completions $fpath)
