@@ -82,7 +82,6 @@ custom=(/usr/local/{bin,sbin} $HOME/.local/bin)
 for p in $custom; do
     if [[ -d $p ]]; then
         path=($p $path)
-        echo $p
     fi
 done
 
