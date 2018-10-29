@@ -73,15 +73,21 @@ ln -sf ~/.vim/.vimrc ~/.vimrc
 header "Installing ZSH"
 yum -y install zsh
 
+# install oh my zsh
+git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
 # backup old configurations
 test -e ~/.oh-my-zsh && mv ~/.oh-my-zsh ~/.oh-my-zsh-save
 test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc-save
-
-# install oh my zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+test -e ~/.bashrc && mv ~/.bashrc ~/.bashrc-save
+test -e ~/.dircolors && mv ~/.dircolors ~/.dircolors-save
+test -e ~/.inputrc && mv ~/.inputrc ~/.inputrc-save
+test -e ~/.profile && mv ~/.profile ~/.profile-save
+test -e ~/.Xdefaults && mv ~/.Xdefaults ~/.Xdefaults-save
+test -e ~/.gitconfig && mv ~/.gitconfig ~/.gitconfig-save
+test -e ~/.gitignore && mv ~/.gitignore ~/.gitignore-save
 
 # link our config files
-header "Installing our configuration files"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 ln -sf $DIR/.bashrc ~/.bashrc
 ln -sf $DIR/.dircolors ~/.dircolors
@@ -90,3 +96,10 @@ ln -sf $DIR/.profile ~/.profile
 ln -sf $DIR/.Xdefaults ~/.Xdefaults
 ln -sf $DIR/.gitconfig ~/.gitconfig
 ln -sf $DIR/.gitignore ~/.gitignore
+
+# If this user's login shell is not already "zsh", attempt to switch.
+TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
+if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
+    chsh -s $(grep /zsh$ /etc/shells | tail -1)
+fi
+
