@@ -1,3 +1,5 @@
+#!/bin/bash
+
 . ./colors.sh
 
 # install common stuff
