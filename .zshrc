@@ -61,7 +61,7 @@ ZSH_THEME="afowler"
 plugins=(
     colored-man-pages cp dircycle extract fabric git gitfast jsontools
     history-substring-search nmap python pip django rsync systemadmin
-    themes gradle zsh-autosuggestions zsh-syntax-highlighting colorize
+    themes gradle
 )
 
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -120,9 +120,6 @@ function r() { grep "$1" ${@:2} -R . }
 # Platform dependent configuration                                           #
 ##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
-    # iterm2 integration
-    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
     # test if android SDK exits and add the platform tools to the path
     ANDROID_SDK=~/Development/Mobile/Android/SDK/platform-tools
     if [[ -d $ANDROID_SDK ]]; then
