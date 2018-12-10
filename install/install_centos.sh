@@ -146,30 +146,39 @@ install_config() {
 }
 
 
-command -v sudo >/dev/null 2>&1 || {
-    abort "Please, install sudo before running this script..."
+main() {
+    # make sure sudo is installed
+    command -v sudo >/dev/null 2>&1 || {
+        abort "Please, install sudo before running this script..."
+    }
+
+    # detect the system
+    system_detect
+    if [ "$DIST" != "centos" ] && [ "$DIST" != "redhat" ]; then
+        abort "Unsupported distribution: $DIST"
+    fi
+
+    # install common programs
+    install_common
+
+    # install vim
+    install_vim
+
+    # install zsh
+    install_zsh
+
+    # install our config files
+    install_config
+
+    # change the shell if is not already "zsh"
+    TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
+    if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
+        chsh -s $(grep /zsh$ /etc/shells | tail -1)
+    fi
 }
 
-# detect the system
-system_detect
-if [ "$DIST" != "centos" ] && [ "$DIST" != "redhat" ]; then
-    abort "Unsupported distribution: $DIST"
-fi
 
-# install common programs
-install_common
-
-# install vim
-install_vim
-
-# install zsh
-install_zsh
-
-# install our config files
-install_config
-
-# change the shell if is not already "zsh"
-TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
-if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
-    chsh -s $(grep /zsh$ /etc/shells | tail -1)
+# run the script just if we are executing it from the command line, not sourcing it
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
 fi

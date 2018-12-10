@@ -142,32 +142,41 @@ install_config() {
     sed -i '/^[^#]*\<pam_motd.so\>/s/^/#/' /etc/pam.d/sshd
 }
 
-# detect the system
-system_detect
-if [ "$OS" != "osx" ]; then
-    abort "Unsupported operating system: $OS"
-fi
 
-command -v brew >/dev/null 2>&1 || {
-    # install Homebrew
-    header "Installing Homebrew"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+main() {
+    # detect the system
+    system_detect
+    if [ "$OS" != "osx" ]; then
+        abort "Unsupported operating system: $OS"
+    fi
+
+    command -v brew >/dev/null 2>&1 || {
+        # install Homebrew
+        header "Installing Homebrew"
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    }
+
+    # install common programs
+    install_common
+
+    # install vim
+    install_vim
+
+    # install zsh
+    install_zsh
+
+    # install our config files
+    install_config
+
+    # change the shell if is not already "zsh"
+    TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
+    if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
+        chsh -s $(grep /zsh$ /etc/shells | tail -1)
+    fi
 }
 
-# install common programs
-install_common
 
-# install vim
-install_vim
-
-# install zsh
-install_zsh
-
-# install our config files
-install_config
-
-# change the shell if is not already "zsh"
-TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
-if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
-    chsh -s $(grep /zsh$ /etc/shells | tail -1)
+# run the script just if we are executing it from the command line, not sourcing it
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
 fi
