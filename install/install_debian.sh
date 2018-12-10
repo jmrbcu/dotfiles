@@ -88,42 +88,42 @@ install_config() {
         warning "Backing up old profile config file: ~/.profile ==> ~/.profile.bak";
         mv ~/.profile ~/.profile.bak
     fi
-    info "Installing .profile config file"
+    info "Installing .profile config file\n"
     cp $CONFIG_DIR/.profile ~/.profile
 
     if [ -f ~/.bashrc ] || [ -h ~/.bashrc ]; then
-        warning "Backing up old bash config file: ~/.vimrc ==> ~/.vimrc.bak";
+        warning "Backing up old bash config file: ~/.bashrc ==> ~/.bashrc.bak";
         mv ~/.bashrc ~/.bashrc.bak
     fi
-    info "Installing .bashrc config file"
+    info "Installing .bashrc config file\n"
     cp $CONFIG_DIR/.bashrc ~/.bashrc
 
     if [ -f ~/.dircolors ] || [ -h ~/.dircolors ]; then
         warning "Backing up old dircolors config file: ~/.dircolors ==> ~/.dircolors.bak";
         mv ~/.dircolors ~/.dircolors.bak
     fi
-    info "Installing .dircolors config file"
+    info "Installing .dircolors config file\n"
     cp $CONFIG_DIR/.dircolors ~/.dircolors
 
     if [ -f ~/.inputrc ] || [ -h ~/.inputrc ]; then
         warning "Backing up old inputrc config file: ~/.inputrc ==> ~/.inputrc.bak";
         mv ~/.inputrc ~/.inputrc.bak
     fi
-    info "Installing .inputrc config file"
+    info "Installing .inputrc config file\n"
     cp $CONFIG_DIR/.inputrc ~/.inputrc
 
     if [ -f ~/.Xdefaults ] || [ -h ~/.Xdefaults ]; then
         warning "Backing up old Xdefaults config file: ~/.Xdefaults ==> ~/.Xdefaults.bak";
         mv ~/.Xdefaults ~/.Xdefaults.bak
     fi
-    info "Installing .Xdefaults config file"
+    info "Installing .Xdefaults config file\n"
     cp $CONFIG_DIR/.Xdefaults ~/.Xdefaults
 
     if [ -f ~/.gitconfig ] || [ -h ~/.gitconfig ]; then
         warning "Backing up old gitconfig config file: ~/.gitconfig ==> ~/.gitconfig.bak";
         mv ~/.gitconfig ~/.gitconfig.bak
     fi
-    info "Installing .gitconfig config file"
+    info "Installing .gitconfig config file\n"
     cp $CONFIG_DIR/.gitconfig ~/.gitconfig
     
 
@@ -131,18 +131,18 @@ install_config() {
         warning "Backing up old gitignore config file: ~/.gitignore ==> ~/.gitignore.bak";
         mv ~/.gitignore ~/.gitignore.bak
     fi
-    info "Installing .gitignore config file"
+    info "Installing .gitignore config file\n"
     cp $CONFIG_DIR/.gitignore ~/.gitignore
 
     if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
         warning "Backing up old zsh config file: ~/.zshrc ==> ~/.zshrc.bak";
         mv ~/.zshrc ~/.zshrc.bak
     fi
-    info "Installing .zshrc config file"
+    info "Installing .zshrc config file\n"
     cp $CONFIG_DIR/.zshrc ~/.zshrc
 
     # nuke MOTD that is shown upon successfully login
-    info "Removing MOTD message"
+    info "Removing MOTD message\n"
     sed -i '/^[^#]*\<pam_motd.so\>/s/^/#/' /etc/pam.d/sshd
 }
 
