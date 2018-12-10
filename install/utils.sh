@@ -70,9 +70,9 @@ system_detect() {
         command -v lsb_release >/dev/null 2>&1 || {
             info "Installing lsb_release in order to detect the system..."
             if command -v apt >/dev/null 2>&1; then
-                apt -y install lsb_release >/dev/null 2>&1
+                sudo apt -y install lsb_release >/dev/null 2>&1
             elif command -v yum >/dev/null 2>&1; then
-                yum -y install redhat-lsb-core >/dev/null 2>&1
+                sudo yum -y install redhat-lsb-core >/dev/null 2>&1
             fi
 
             command -v lsb_release >/dev/null 2>&1 || {
