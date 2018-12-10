@@ -142,18 +142,17 @@ install_config() {
     sed -i '/^[^#]*\<pam_motd.so\>/s/^/#/' /etc/pam.d/sshd
 }
 
+# detect the system
+system_detect
+if [ "$OS" != "osx" ]; then
+    abort "Unsupported operating system: $OS"
+fi
 
 command -v brew >/dev/null 2>&1 || {
     # install Homebrew
     header "Installing Homebrew"
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
-
-# detect the system
-system_detect
-if [ "$OS" != "osx" ]; then
-    abort "Unsupported operating system: $OS"
-fi
 
 # install common programs
 install_common
