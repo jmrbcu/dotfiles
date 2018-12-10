@@ -61,7 +61,7 @@ ZSH_THEME="afowler"
 plugins=(
     colored-man-pages cp dircycle extract fabric git gitfast jsontools
     history-substring-search nmap python pip django rsync systemadmin
-    themes gradle
+    themes gradle pyenv
 )
 
 if [[ "$OSTYPE" == darwin* ]]; then

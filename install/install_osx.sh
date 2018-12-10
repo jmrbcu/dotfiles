@@ -11,25 +11,18 @@ cd $CURRENT_DIR
 
 
 install_common() {
-    # update the system
-    header "Updating the system"
-    sudo apt -y update || exit 1
-    sudo apt -y upgrade || exit 1
-
     # install common programs
     header "Installing common programs (mc, htop, git, etc...)"
-    sudo apt -y install lsb-release cabextract p7zip-full xz-utils rpm mc htop bash-completion exuberant-ctags \
-                        git subversion elinks curl wget || exit 1
-
-    # download neofetch
-    sudo curl https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/local/bin/neofetch || exit 1
-    sudo chmod 755 /usr/local/bin/neofetch
+    brew update
+    brew upgrade
+    brew install install cabextract p7zip xz rpm mc htop bash-completion ctags git subversion elinks wget neofetch \
+                         python@2 python ipython@5 ipython|| exit 1
 }
 
 
 install_vim() {
     header "Installing Vim"
-    sudo apt -y install git vim || exit 1
+    brew install vim || exit 1
 
     # backup old vim directories
     if [ -d ~/.vim.bak ]; then
@@ -60,7 +53,7 @@ install_zsh() {
     header "Installing ZSH"
 
     # install zsh and oh-my-zsh
-    sudo apt -y install zsh || exit 1
+    brew install install zsh zsh-completions || exit 1
 
     # install oh-my-zsh, not using its regular install script
     if [ ! -d ~/.oh-my-zsh ]; then
@@ -76,6 +69,9 @@ install_zsh() {
 
     info "Using the Oh My Zsh template file as ~/.zshrc"
     cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+    # force rebuild `zcompdump`:
+    rm -f ~/.zcompdump; compinit
 }
 
 
@@ -147,14 +143,16 @@ install_config() {
 }
 
 
-command -v sudo >/dev/null 2>&1 || {
-    abort "Please, install sudo before running this script..."
+command -v brew >/dev/null 2>&1 || {
+    # install Homebrew
+    header "Installing Homebrew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 
 # detect the system
 system_detect
-if [ "$DIST" != "debian" ] && [ "$DIST" != "ubuntu" ]; then
-    abort "Unsupported distribution: $DIST"
+if [ "$OS" != "osx" ]; then
+    abort "Unsupported operating system: $OS"
 fi
 
 # install common programs

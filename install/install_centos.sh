@@ -1,105 +1,175 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. ./colors.sh
+# install error exit trap
+trap "exit 1" ERR
 
-# install common stuff
-header "Installing common stuff"
-yum -y install cabextract p7zip p7zip-plugins unrar xz mc htop bash-completion ctags git subversion
-               
-# install python 2 and 3
-PYTHON2_VER=2.7.15
-PYTHON2_URL="https://www.python.org/ftp/python/$PYTHON2_VER/Python-$PYTHON2_VER.tgz"
+# move to script directory so all relative paths work
+CURRENT_DIR="$(dirname "$0")"
+cd $CURRENT_DIR
 
-PYTHON3_VER=3.7.1
-PYTHON3_URL="https://www.python.org/ftp/python/$PYTHON3_VER/Python-$PYTHON3_VER.tgz"
+. ./utils.sh
 
-pushd "/usr/src"
-yum -y install zlib-devel bzip2-devel xz-devel lzma-devel expat-devel gmp-devel openssl-devel sqlite-devel \
-               ncurses-devel readline-devel gdbm-devel db4-devel libpcap-devel libffi-devel pkgconfig
 
-# python 2 build and install
-header "Installing Python v$PYTHON2_VER"
-curl $PYTHON2_URL -o Python-$PYTHON2_VER.tgz
-tar -xpf Python-$PYTHON2_VER.tgz
-pushd Python-$PYTHON2_VER
-./configure --prefix="/usr/local" --enable-shared --with-threads --with-computed-gotos --enable-ipv6 \
-            --enable-unicode=ucs4  --with-lto --with-system-expat --with-system-ffi LDFLAGS='-Wl,-rpath=/usr/local/lib'
-make -j
-make altinstall
-popd
+install_common() {
+    # update the system
+    header "Updating the system"
+    sudo yum -y update || exit 1
 
-# python3 build and install
-header "Installing Python v$PYTHON3_VER"
-curl $PYTHON3_URL -o Python-$PYTHON3_VER.tgz
-tar -xpf Python-$PYTHON3_VER.tgz
-pushd Python-$PYTHON3_VER
-./configure --prefix="/usr/local" --enable-shared --with-computed-gotos --enable-ipv6 --with-lto --with-system-expat \
-            --enable-loadable-sqlite-extensions --with-system-ffi --with-system-libmpdec \
-            LDFLAGS='-Wl,-rpath=/usr/local/lib'
-make -j
-make altinstall
-popd
+    # install common programs
+    header "Installing common programs (mc, htop, git, etc...)"
+    sudo yum -y install redhat-lsb-core cabextract p7zip p7zip-plugins unrar xz mc htop bash-completion ctags \
+                git subversion elinks curl wget coreutils || exit 1
 
-# install pip for python 2 and 3
-header "Installing pip2, pip3, virtualenv and virtualenvwrapper"
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-/usr/local/bin/python2.7 get-pip.py
-/usr/local/bin/python3.7 get-pip.py
-/usr/local/bin/pip3 install --upgrade virtualenv virtualenvwrapper
-popd
+    # download neofetch
+    sudo curl https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/local/bin/neofetch || exit 1
+    sudo chmod 755 /usr/local/bin/neofetch
+}
 
-header "Installing NeoFetch"
-wget -c https://github.com/dylanaraps/neofetch/releases/download/5.0.0/neofetch -o /usr/local/bin/neofetch
-chmod 755 /usr/local/bin/neofetch
 
-header "Installing httpie"
-/usr/local/bin/pip3 install --upgrade httpie
+install_vim() {
+    header "Installing Vim"
+    sudo yum -y install git vim || exit 1
 
-header "Installing ipython2 and ipython3"
-/usr/local/bin/pip2 install --upgrade ipython
-/usr/local/bin/pip3 install --upgrade ipython
+    # backup old vim directories
+    if [ -d ~/.vim.bak ]; then
+        warning "Removing old vim backup directory: ~/.vim.bak";
+        rm -rf ~/.vim.bak
+    fi
 
-header "Installing vim"
-yum -y install vim
+    if [ -d ~/.vim ]; then
+        warning "Backing up old vim config directory: ~/.vim ==> ~/.vim.bak";
+        mv ~/.vim ~/.vim.bak
+    fi
 
-# backup old vim directories
-test -e ~/.vim && mv ~/.vim ~/.vim-save
-test -e ~/.vimrc && mv ~/.vimrc ~/.vimrc-save
+    if [ -f ~/.vimrc ] || [ -h ~/.vimrc ]; then
+        warning "Backing up old vim config file: ~/.vimrc ==> ~/.vimrc.bak";
+        mv ~/.vimrc ~/.vimrc.bak
+    fi
 
-git clone https://github.com/timss/vimconf.git ~/.vim
-ln -sf ~/.vim/.vimrc ~/.vimrc
+    # install vim configuration system
+    git clone https://github.com/timss/vimconf.git ~/.vim || exit 1
 
-# install zsh
-header "Installing ZSH"
-yum -y install zsh
+    info "Linking our .vimrc: ~/.vimrc ==> ~/.vim/.vimrc"
+    ln -sf ~/.vim/.vimrc ~/.vimrc
+}
 
-# install oh my zsh
-git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
-# backup old configurations
-test -e ~/.oh-my-zsh && mv ~/.oh-my-zsh ~/.oh-my-zsh-save
-test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc-save
-test -e ~/.bashrc && mv ~/.bashrc ~/.bashrc-save
-test -e ~/.dircolors && mv ~/.dircolors ~/.dircolors-save
-test -e ~/.inputrc && mv ~/.inputrc ~/.inputrc-save
-test -e ~/.profile && mv ~/.profile ~/.profile-save
-test -e ~/.Xdefaults && mv ~/.Xdefaults ~/.Xdefaults-save
-test -e ~/.gitconfig && mv ~/.gitconfig ~/.gitconfig-save
-test -e ~/.gitignore && mv ~/.gitignore ~/.gitignore-save
+install_zsh() {
+    # install zsh
+    header "Installing ZSH"
 
-# link our config files
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-ln -sf $DIR/.bashrc ~/.bashrc
-ln -sf $DIR/.dircolors ~/.dircolors
-ln -sf $DIR/.inputrc ~/.inputrc
-ln -sf $DIR/.profile ~/.profile
-ln -sf $DIR/.Xdefaults ~/.Xdefaults
-ln -sf $DIR/.gitconfig ~/.gitconfig
-ln -sf $DIR/.gitignore ~/.gitignore
+    # install zsh and oh-my-zsh
+    sudo yum -y install zsh || exit 1
 
-# If this user's login shell is not already "zsh", attempt to switch.
-TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
-if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
-    chsh -s $(grep /zsh$ /etc/shells | tail -1)
+    # install oh-my-zsh, not using its regular install script
+    if [ ! -d ~/.oh-my-zsh ]; then
+        git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh || exit 1
+    else
+        warning "Existing install of Oh-My-ZSH was found, skipping install"
+    fi
+
+    if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
+        warning "Backing up old zsh config file: ~/.zshrc ==> ~/.zshrc.bak";
+        mv ~/.zshrc ~/.zshrc.bak;
+    fi
+
+    info "Using the Oh My Zsh template file as ~/.zshrc"
+    cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+}
+
+
+install_config() {
+    header "Installing our configuration files"
+    CONFIG_DIR=$CURRENT_DIR/..
+
+    # backup old configurations
+    if [ -f ~/.profile ] || [ -h ~/.profile ]; then
+        warning "Backing up old profile config file: ~/.profile ==> ~/.profile.bak";
+        mv ~/.profile ~/.profile.bak
+    fi
+    info "Installing .profile config file"
+    cp $CONFIG_DIR/.profile ~/.profile
+
+    if [ -f ~/.bashrc ] || [ -h ~/.bashrc ]; then
+        warning "Backing up old bash config file: ~/.vimrc ==> ~/.vimrc.bak";
+        mv ~/.bashrc ~/.bashrc.bak
+    fi
+    info "Installing .bashrc config file"
+    cp $CONFIG_DIR/.bashrc ~/.bashrc
+
+    if [ -f ~/.dircolors ] || [ -h ~/.dircolors ]; then
+        warning "Backing up old dircolors config file: ~/.dircolors ==> ~/.dircolors.bak";
+        mv ~/.dircolors ~/.dircolors.bak
+    fi
+    info "Installing .dircolors config file"
+    cp $CONFIG_DIR/.dircolors ~/.dircolors
+
+    if [ -f ~/.inputrc ] || [ -h ~/.inputrc ]; then
+        warning "Backing up old inputrc config file: ~/.inputrc ==> ~/.inputrc.bak";
+        mv ~/.inputrc ~/.inputrc.bak
+    fi
+    info "Installing .inputrc config file"
+    cp $CONFIG_DIR/.inputrc ~/.inputrc
+
+    if [ -f ~/.Xdefaults ] || [ -h ~/.Xdefaults ]; then
+        warning "Backing up old Xdefaults config file: ~/.Xdefaults ==> ~/.Xdefaults.bak";
+        mv ~/.Xdefaults ~/.Xdefaults.bak
+    fi
+    info "Installing .Xdefaults config file"
+    cp $CONFIG_DIR/.Xdefaults ~/.Xdefaults
+
+    if [ -f ~/.gitconfig ] || [ -h ~/.gitconfig ]; then
+        warning "Backing up old gitconfig config file: ~/.gitconfig ==> ~/.gitconfig.bak";
+        mv ~/.gitconfig ~/.gitconfig.bak
+    fi
+    info "Installing .gitconfig config file"
+    cp $CONFIG_DIR/.gitconfig ~/.gitconfig
+    
+
+    if [ -f ~/.gitignore ] || [ -h ~/.gitignore ]; then
+        warning "Backing up old gitignore config file: ~/.gitignore ==> ~/.gitignore.bak";
+        mv ~/.gitignore ~/.gitignore.bak
+    fi
+    info "Installing .gitignore config file"
+    cp $CONFIG_DIR/.gitignore ~/.gitignore
+
+    if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
+        warning "Backing up old zsh config file: ~/.zshrc ==> ~/.zshrc.bak";
+        mv ~/.zshrc ~/.zshrc.bak
+    fi
+    info "Installing .zshrc config file"
+    cp $CONFIG_DIR/.zshrc ~/.zshrc
+
+    # nuke MOTD that is shown upon successfully login
+    info "Removing MOTD message"
+    sed -i '/^[^#]*\<pam_motd.so\>/s/^/#/' /etc/pam.d/sshd
+}
+
+
+command -v sudo >/dev/null 2>&1 || {
+    abort "Please, install sudo before running this script..."
+}
+
+# detect the system
+system_detect
+if [ "$DIST" != "centos" ] && [ "$DIST" != "redhat" ]; then
+    abort "Unsupported distribution: $DIST"
 fi
 
+# install common programs
+install_common
+
+# install vim
+install_vim
+
+# install zsh
+install_zsh
+
+# install our config files
+install_config
+
+# change the shell if is not already "zsh"
+TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
+if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
+    chsh -s $(grep /zsh$ /etc/shells | tail -1)
+fi
