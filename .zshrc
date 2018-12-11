@@ -59,9 +59,9 @@ ZSH_THEME="afowler"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    colored-man-pages cp dircycle extract fabric git gitfast jsontools
-    history-substring-search nmap python pip django rsync systemadmin
-    themes gradle pyenv
+    colored-man-pages cp dircycle extract fabric gitfast jsontools
+    history-substring-search nmap python pip django pyenv rsync systemadmin
+    themes gradle httpie
 )
 
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -124,6 +124,16 @@ if [[ "$OSTYPE" == darwin* ]]; then
     ANDROID_SDK=~/Development/Mobile/Android/SDK/platform-tools
     if [[ -d $ANDROID_SDK ]]; then
         path=($ANDROID_SDK $path)
+    fi
+
+    # test if we have the google cloud sdk and the binaries to the path
+    if [ -f ~/Development/google-cloud-sdk/path.zsh.inc ]; then 
+        . ~/Development/google-cloud-sdk/path.zsh.inc; 
+    fi
+
+    # test if we have the google cloud sdk and the completions to zsh
+    if [ -f ~/Development/google-cloud-sdk/completion.zsh.inc ]; then 
+        . ~/Development/google-cloud-sdk/completion.zsh.inc; 
     fi
 
     # Add more zsh completions (brew install zsh-completions)
