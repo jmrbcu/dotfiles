@@ -11,6 +11,9 @@ cd $CURRENT_DIR
 
 
 install_common() {
+    # install command line tools
+    xcode-select --install
+    
     # install common programs
     header "Installing common programs (mc, htop, git, etc...)"
     brew update
