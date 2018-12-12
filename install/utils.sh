@@ -68,7 +68,7 @@ system_detect() {
 		OS="osx"
 	else # linux
         command -v lsb_release >/dev/null 2>&1 || {
-            info "Installing lsb_release in order to detect the system..."
+            info "Installing lsb_release in order to detect the distribution..."
             if command -v apt >/dev/null 2>&1; then
                 sudo apt -y install lsb_release >/dev/null 2>&1
             elif command -v yum >/dev/null 2>&1; then
