@@ -10,7 +10,7 @@ cd $CURRENT_DIR
 system_detect
 if [ "$OS" = "osx" ]; then
     info "Operating system: OSX"
-elif [ "$OS" = "osx" ]; then
+elif [ "$OS" = "linux" ]; then
     info "Operating system: Linux"
     if [ "$DIST" = "debian" ] || [ "$DISR" = "ubuntu" ]; then
         info "Distribution detected: Debian/Ubuntu"
