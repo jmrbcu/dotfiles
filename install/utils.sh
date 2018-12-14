@@ -44,7 +44,7 @@ warning () {
 
 
 lowercase(){
-    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+    printf "$1" | tr '[:upper:]' '[:lower:]'
 }
 
 
