@@ -126,9 +126,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
     fi
 
     # test if android SDK exits and add the platform tools to the path
-    ANDROID_SDK=~/Development/Mobile/Android/SDK/platform-tools
-    if [[ -d $ANDROID_SDK ]]; then
-        path=($ANDROID_SDK $path)
+    if [[ -d ~/Development/Mobile/Android/SDK/platform-tools ]]; then
+        path=(~/Development/Mobile/Android/SDK/platform-tools $path)
     fi
 
     # test if we have the google cloud sdk and the binaries to the path
