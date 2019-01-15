@@ -120,6 +120,11 @@ function r() { grep "$1" ${@:2} -R . }
 # Platform dependent configuration                                           #
 ##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
+    # test if ruby gem directory exists
+    if [[ -d /usr/local/lib/ruby/gems/2.6.0/bin ]]; then
+        path=(/usr/local/lib/ruby/gems/2.6.0/bin $path)
+    fi
+
     # test if android SDK exits and add the platform tools to the path
     ANDROID_SDK=~/Development/Mobile/Android/SDK/platform-tools
     if [[ -d $ANDROID_SDK ]]; then
