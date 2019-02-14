@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
-
 # documentation for bash: http://wiki.bash-hackers.org/commands/classictest
 
-# check for color support
+# initialize the terminal with color support
 if [ -t 1 ]; then
-
     # see if it supports colors...
     ncolors=$(tput colors)
 
@@ -17,7 +15,8 @@ if [ -t 1 ]; then
         magenta="$(tput setaf 5)"
         cyan="$(tput setaf 6)"
     fi
-fi
+fi    
+
 
 header () {
     printf "\n"
@@ -68,17 +67,7 @@ system_detect() {
 		OS="osx"
 	else # linux
         command -v lsb_release >/dev/null 2>&1 || {
-            info "Installing lsb_release in order to detect the distribution..."
-            if command -v apt >/dev/null 2>&1; then
-                sudo apt -y install lsb_release >/dev/null 2>&1
-            elif command -v yum >/dev/null 2>&1; then
-                sudo yum -y install redhat-lsb-core >/dev/null 2>&1
-            fi
-
-            command -v lsb_release >/dev/null 2>&1 || {
-                error "Cannot install lsb_release, please, install it before running this script"
-                exit 1
-            }
+            abort "lsb_release command not found, aborting"
         }
 
         DIST=`lowercase \`lsb_release -s -i\``
@@ -105,7 +94,6 @@ abort () {
     fi
     exit 1  
 }
-
 
 
 install_python () {

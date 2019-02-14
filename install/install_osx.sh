@@ -25,7 +25,7 @@ install_common() {
 
 install_vim() {
     header "Installing Vim"
-    brew install vim || exit 1
+    brew install git vim || exit 1
 
     # backup old vim directories
     if [ -d ~/.vim.bak ]; then
@@ -174,7 +174,7 @@ main() {
     # change the shell if is not already "zsh"
     TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
     if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
-        chsh -s $(grep /zsh$ /etc/shells | tail -1)
+        sudo chsh -s $(grep /zsh$ /etc/shells | tail -1)
     fi
 }
 
