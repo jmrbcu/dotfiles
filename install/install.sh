@@ -17,9 +17,10 @@ command -v sudo >/dev/null 2>&1 || {
 }
 
 system_detect
-    if [ "$DIST" != "debian" ] && [ "$DIST" != "ubuntu" ]; then
-        ./install_debian.sh
-    elif [ "$DIST" != "centos" ] && [ "$DIST" != "redhat" ]; then
-        ./install_centos.sh
-    fi
+if [ "$DIST" != "debian" ] && [ "$DIST" != "ubuntu" ]; then
+    ./install_debian.sh
+elif [ "$DIST" != "centos" ] && [ "$DIST" != "redhat" ]; then
+    ./install_centos.sh
+else
+    error "System unsupported: $DIST"
 fi
