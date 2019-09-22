@@ -2,11 +2,11 @@
 # documentation for bash: http://wiki.bash-hackers.org/commands/classictest
 
 # initialize the terminal with color support
-if [ -t 1 ]; then
+if [[ -t 1 ]]; then
     # see if it supports colors...
     ncolors=$(tput colors)
 
-    if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]; then
+    if [[ -n "$ncolors" && $ncolors -ge 8 ]]; then
         normal="$(tput sgr0)"
         red="$(tput setaf 1)"
         green="$(tput setaf 2)"
@@ -15,7 +15,7 @@ if [ -t 1 ]; then
         magenta="$(tput setaf 5)"
         cyan="$(tput setaf 6)"
     fi
-fi    
+fi
 
 
 header () {
@@ -28,22 +28,28 @@ header () {
 
 
 info () {
-    printf "${normal}[${cyan}INFO${normal}] ${green}$1${normal}\n"
+    printf "${yellow}$1${normal}\n"
 }
 
 
 error () {
-    printf "${normal}[${cyan}ERROR${normal}] ${red}$1${normal}\n" >&2   ## Send message to stderr. Exclude >&2 if you don't want it that way.
+    printf "${red}$1${normal}\n" >&2   ## Send message to stderr. Exclude >&2 if you don't want it that way.
 }
 
 
 warning () {
-    printf "${normal}[${cyan}WARN${normal}] ${magenta}$1${normal}\n" >&2   ## Send message to stderr. Exclude >&2 if you don't want it that way.
+    printf "${magenta}$1${normal}\n" >&2   ## Send message to stderr. Exclude >&2 if you don't want it that way.
 }
 
 
 lowercase(){
     printf "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+
+abort () {
+    error "$1"
+    exit 1
 }
 
 
@@ -54,16 +60,20 @@ system_detect() {
     # ARCH: System architecture, Ej: x86_64
     # DIST: Distibution ID, Ej: debian, ubuntu, centos, redhat
     # VER: Distribution version: Ej: 18.04, 9.6
-    
+
+    command -v lsb_release >/dev/null 2>&1 || {
+        abort "Please, install lsb_release before running this script..."
+    }
+
 	OS=`lowercase \`uname\``
 	KERNEL=`lowercase \`uname -r\``
 	ARCH=`lowercase \`uname -m\``
     DIST=""
     VER=""
 
-	if [ "$OS" = "windowsnt" ]; then
+	if [[ "$OS" = "windowsnt" ]]; then
 		OS="windows"
-	elif [ "$OS" = "darwin" ]; then
+	elif [[ "$OS" = "darwin" ]]; then
 		OS="osx"
 	else # linux
         command -v lsb_release >/dev/null 2>&1 || {
@@ -73,14 +83,7 @@ system_detect() {
         DIST=`lowercase \`lsb_release -s -i\``
         VER=`lowercase \`lsb_release -s -r\``
 	fi
-
-    readonly OS
-    readonly KERNEL
-    readonly ARCH
-    readonly DIST
-    readonly VER
 }
-
 
 abort () {
     # Usage: 
