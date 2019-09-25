@@ -114,6 +114,13 @@ alias du="du -h -s"
 alias df="df -h"
 
 if [[ "$OSTYPE" == darwin* ]]; then
+    # zsh autosuggestions
+    if [[ -e /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+        source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    else
+        echo 'Install "zsh-autosuggestions" (brew install zsh-autosuggestions) in order to use zsh autosuggestions'
+    fi
+
     # test if android SDK exits and add the platform tools to the path
     if [[ -d ~/Development/Mobile/Android/SDK/platform-tools ]]; then
         path=(~/Development/Mobile/Android/SDK/platform-tools $path)
