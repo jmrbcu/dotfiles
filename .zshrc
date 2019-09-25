@@ -4,31 +4,36 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="afowler"
 ZSH_THEME="robbyrussell"
 
-# Set list of themes to load
-# Setting this variable when ZSH_THEME=random
-# cause zsh load theme from this variable instead of
-# looking in ~/.oh-my-zsh/themes/
-# An empty array have no effect
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -49,48 +54,30 @@ ZSH_THEME="robbyrussell"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    colored-man-pages cp dircycle extract fabric gitfast jsontools
-    history-substring-search nmap python pip django pyenv rsync systemadmin
-    themes gradle httpie
-)
-
+plugins=(git colored-man-pages jsontools python nmap fabric httpie themes urltools virtualenvwrapper)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx xcode)
 fi
 
 source $ZSH/oh-my-zsh.sh
 
-
-# User configuration
-
 ##############################################################################
-# Platform independent configuration                                         #
+# User configuration                                                         #
 ##############################################################################
-
-# path
-custom=(/usr/local/{bin,sbin} $HOME/.local/bin)
-for p in $custom; do
-    if [[ -d $p ]]; then
-        path=($p $path)
-    fi
-done
-
-# ssh
-export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
-
-# Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # Make globbing work like in bash
 setopt nonomatch
@@ -98,74 +85,49 @@ setopt nonomatch
 # Disable asking confirmation for rm
 setopt rm_star_silent
 
-# Set the umask just in case
-umask 0022
+# path
+custom=($HOME/.local/bin)
+for p in $custom; do
+    if [[ -d $p ]]; then
+        path=($p $path)
+    fi
+done
 
-# Main editor and pager
-export EDITOR='vim'
-export VISUAL='vim'
-export PAGER='less'
+# Make zsh know about hosts already accessed by SSH
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
+# Preferred editor for local and remote sessions
+export EDITOR='vim'
+export VISUAL='vim'
+if [[ -z $SSH_CONNECTION ]]; then
+    # use VS Code if available in local sessions only
+    command -v code >/dev/null 2>&1 && export EDITOR='code' && export VISUAL='code'
+fi
+
 # Aliases
 alias du="du -h -s"
 alias df="df -h"
 
-# Functions
-function f() { find . -iname "*$1*" ${@:2} }
-function r() { grep "$1" ${@:2} -R . }
-
-##############################################################################
-# Platform dependent configuration                                           #
-##############################################################################
 if [[ "$OSTYPE" == darwin* ]]; then
-    # test if ruby gem directory exists
-    if [[ -d /usr/local/lib/ruby/gems/2.6.0/bin ]]; then
-        path=(/usr/local/lib/ruby/gems/2.6.0/bin $path)
-    fi
-
     # test if android SDK exits and add the platform tools to the path
     if [[ -d ~/Development/Mobile/Android/SDK/platform-tools ]]; then
         path=(~/Development/Mobile/Android/SDK/platform-tools $path)
     fi
 
-    # test if we have the google cloud sdk and the binaries to the path
-    if [ -f ~/Development/google-cloud-sdk/path.zsh.inc ]; then 
-        . ~/Development/google-cloud-sdk/path.zsh.inc; 
-    fi
-
-    # test if we have the google cloud sdk and the completions to zsh
-    if [ -f ~/Development/google-cloud-sdk/completion.zsh.inc ]; then 
-        . ~/Development/google-cloud-sdk/completion.zsh.inc; 
-    fi
-
-    # Add more zsh completions (brew install zsh-completions)
-    fpath=(/usr/local/share/zsh-completions $fpath)
-
-    # Add /etc/manpaths.d/ files to manpath
-    for path_file in /etc/manpaths.d/*(.N); do
-        manpath+=($(<$path_file))
-    done
-    unset path_file
-
     # Aliases
-    unalias ping
     alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
     alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
 
     alias py='echo "ipython for python v3 is not installed, please install ipython with the following command: brew install ipython"'
-    command -v ipython >/dev/null 2>&1 && {
-        alias py=ipython
-    }
+    command -v ipython >/dev/null 2>&1 && alias py=ipython
 
     alias py2='echo "ipython for python v2 is not installed, please install ipython@5 with the following command: brew install ipython@5"'
-    command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && {
-        alias py2="/usr/local/opt/ipython@5/bin/ipython"
-    }
+    command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && alias py2="/usr/local/opt/ipython@5/bin/ipython"
     
     # Use GNU ls instead of BSD ls
     alias ls="gls -hlF --color=always --group-directories-first"
@@ -174,14 +136,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
       echo "gls command from coreutils package is not installed, using default ls for now, please, install it with: brew install coreutils";
       alias ls="ls -hlGF"
       alias lsh="ls -hlAGF"
-    }
-
-    # Configure virtualenvwrapper if available
-    command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
-        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-        export WORKON_HOME=$HOME/.virtualenvs
-        export PROJECT_HOME=$HOME/Development
-        source /usr/local/bin/virtualenvwrapper.sh
     }
 
     # Functions
@@ -214,7 +168,4 @@ else
 fi
 
 # Execute neofetch if available
-command -v neofetch >/dev/null 2>&1 && {
-    neofetch
-}
-
+command -v neofetch >/dev/null 2>&1 && neofetch
