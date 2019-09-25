@@ -79,6 +79,9 @@ source $ZSH/oh-my-zsh.sh
 # User configuration                                                         #
 ##############################################################################
 
+# Execute neofetch if available
+command -v neofetch >/dev/null 2>&1 && neofetch
+
 # Make globbing work like in bash
 setopt nonomatch
 
@@ -173,6 +176,3 @@ else
     alias ls="ls -hlF --color=always --group-directories-first"
     alias lsh="ls -hlAF --color=always --group-directories-first"
 fi
-
-# Execute neofetch if available
-command -v neofetch >/dev/null 2>&1 && neofetch
