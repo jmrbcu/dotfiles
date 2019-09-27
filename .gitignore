@@ -1,6 +1,10 @@
-*.py[cod]
-*~
+# Folder config files, thumbnails, files that might appear on external disks
 .DS_Store
+Desktop.ini
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
 
 # project files
 *sublime*
@@ -10,10 +14,11 @@
 .idea
 .vscode
 
-# C extensions
-*.so
 
-# Packages
+# Python files
+*.py[cod]
+*~
+*.so
 *.egg
 *.egg-info
 dist
@@ -24,18 +29,8 @@ var
 sdist
 develop-eggs
 .installed.cfg
-lib
-lib64
-
-# Installer logs
 pip-log.txt
-
-# Unit test / coverage reports
 .coverage
 .tox
 nosetests.xml
 
-# Translations
-*.mo
-
-vimified
