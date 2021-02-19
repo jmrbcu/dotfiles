@@ -1,22 +1,25 @@
 [user]
 	name = Jose Rodriguez
-	email = jrodriguez@interactivetel.com
+	email = jmrbcu@gmail.com
 [credential]
 	helper = cache --timeout=3600
 [core]
-	autocrlf = input
 	editor = code --wait
 [color]
 	ui = true
 
+# USE: git difftool <COMMIT1> <COMMIT2>
+#  Ej: Diff between the last commit and the previous one
+#      git difftool HEAD~1 HEAD 
 [diff]
-    tool = vscode
+	tool = vscode
 
 [difftool "vscode"]
-    cmd = code --wait --diff $LOCAL $REMOTE
+    cmd = code --reuse-window --wait --diff "$LOCAL" "$REMOTE"
 
+# USE: git mergetool
 [merge]
 	tool = vscode
 
 [mergetool "vscode"]
-	cmd = code --wait $MERGED
+	cmd = code --reuse-window --wait "$MERGED"
