@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages jsontools python nmap fabric httpie themes urltools virtualenvwrapper)
+plugins=(git colored-man-pages jsontools python nmap fabric httpie themes urltools)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx xcode)
 fi
@@ -79,100 +79,113 @@ source $ZSH/oh-my-zsh.sh
 # User configuration                                                         #
 ##############################################################################
 
-# Execute neofetch if available
-command -v neofetch >/dev/null 2>&1 && neofetch
-
-# Make globbing work like in bash
+# Make globbing work like in bash, if it fails, then pass the original glob to as argument to the program
 setopt nonomatch
 
 # Disable asking confirmation for rm
 setopt rm_star_silent
 
 # path
-custom=($HOME/.local/bin)
+custom=($HOME/.dotnet/tools $HOME/.local/bin /usr/local/bin /usr/local/sbin)
 for p in $custom; do
-    if [[ -d $p ]]; then
-        path=($p $path)
-    fi
+    test -d $p && path=($p $path)
 done
 
 # Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+# zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-# Preferred editor for local and remote sessions
-export EDITOR='vim'
-export VISUAL='vim'
-if [[ -z $SSH_CONNECTION ]]; then
-    # use VS Code if available in local sessions only
-    command -v code >/dev/null 2>&1 && export EDITOR='code' && export VISUAL='code'
+# Preferred editor for local and remote sessions, in this order: vim, nano
+if command -v vim >/dev/null 2>&1; then 
+    export EDITOR='vim'
+    export VISUAL='vim'
+else
+    export EDITOR='nano'
+    export VISUAL='nano'
 fi
 
-# Aliases
+# Preferred editor for local sessions, in this order: code, vim, nano
+if [[ -z $SSH_CONNECTION ]]; then
+    if command -v code >/dev/null 2>&1; then 
+        export EDITOR='code'
+        export VISUAL='code'
+    fi
+fi
+
+
+# Command Aliases
 alias du="du -h -s"
 alias df="df -h"
+alias py2='echo "ipython for python v2 is not installed"'
+command -v ipython2 >/dev/null 2>&1 && alias py2=ipython2
+
+alias py3='echo "ipython for python v3 is not installed"'
+command -v ipython3 >/dev/null 2>&1 && alias py3=ipython3
+
+# Utility Functions
+# forward local port to a remote port using ssh
+function forward() {
+    if [ "$#" -eq 2 ]; then
+        ssh -L $2 $1
+    else
+        echo "::: Usage: forward <[user@]host[:port]> <local-port>:<remote-host>:<remote-port>"
+        echo ":::     <[user@]host[:port]>: Intermediate host with ssh"
+        echo ":::     <local-port>: Port on the local machine we want to forward"
+        echo ":::     <remote-host: Remote host where the local port will be forwarded to"
+        echo ":::     <remote-port: Port in the remote host where the local port will be forwarded to"
+    fi
+    
+}
+
+
+# capture traffic from a remote server
+function remote-capture() {
+    if [ "$#" -eq 2 ]; then
+        ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
+    elif [ "$#" -eq 3 ]; then
+        ssh -p $2 $1 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
+    else
+        echo "::: Usage:"
+        echo ":::    remote-capture <[user@]host> [ssh-port] <iface>\n"
+    fi
+}
+
 
 if [[ "$OSTYPE" == darwin* ]]; then
-    # zsh autosuggestions
-    if [[ -e /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-        source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    else
-        echo 'Install "zsh-autosuggestions" (brew install zsh-autosuggestions) in order to use zsh autosuggestions'
-    fi
-
-    # test if android SDK exits and add the platform tools to the path
-    if [[ -d ~/Development/Mobile/Android/SDK/platform-tools ]]; then
-        path=(~/Development/Mobile/Android/SDK/platform-tools $path)
-    fi
-
-    # Aliases
+    # Command Aliases
     alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
     alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
 
-    alias py='echo "ipython for python v3 is not installed, please install ipython with the following command: brew install ipython"'
-    command -v ipython >/dev/null 2>&1 && alias py=ipython
-
-    alias py2='echo "ipython for python v2 is not installed, please install ipython@5 with the following command: brew install ipython@5"'
-    command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && alias py2="/usr/local/opt/ipython@5/bin/ipython"
-    
-    # Use GNU ls instead of BSD ls
-    alias ls="gls -hlF --color=always --group-directories-first"
-    alias lsh="gls -hlAF --color=always --group-directories-first"
-    command -v gls >/dev/null 2>&1 || {
-      echo "gls command from coreutils package is not installed, using default ls for now, please, install it with: brew install coreutils";
-      alias ls="ls -hlGF"
-      alias lsh="ls -hlAGF"
+    # Use GNU ls instead of BSD ls if available
+    alias ls="ls -hlGF"
+    alias lsh="ls -hlGFA"
+    command -v gls >/dev/null 2>&1 && {
+        alias ls="gls -hlF --color=always --group-directories-first"
+        alias lsh="gls -hlAF --color=always --group-directories-first"
     }
 
-    # Functions
-    function adbGetFile() { adb exec-out run-as $1 cat $2 > `basename $2`; }
-    function adbRmFile() { adb exec-out run-as $1 rm $2; }
-    function adbLsFiles() { adb exec-out run-as $1 ls -hlAFtr --color=auto $2; }
-    function getRealm() { adbGetFile $1 files/$2.realm; }
-    function rmRealm() {  adbRmFile $1 files/$2.realm; }
-
+    # Utility Functions
     # Finder: hide and show hidden files
     function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
     function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
-    function capture() {
-        if [ "$#" -eq 2 ]; then
-            ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
-        fi
-
-        if [ "$#" -eq 3 ]; then
-            ssh $1@$2 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
-        fi
-
-        if [ "$#" -eq 4 ]; then
-            ssh -p $3 $1@$2 "tcpdump -i $4 -U -s0 -w -"| wireshark -k -i -;
-        fi
-    }
 else
-    # Aliases
+    # Command Aliases
     alias ls="ls -hlF --color=always --group-directories-first"
     alias lsh="ls -hlAF --color=always --group-directories-first"
 fi
+
+
+# Enable zsh autosuggestions: fish like sugestions.
+# Also, take a look at: FZF at: https://github.com/junegunn/fzf
+if [[ -e /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+    echo 'Install "zsh-autosuggestions" in order to use zsh autosuggestions'
+fi
+
+# Execute neofetch if available
+command -v pfetch >/dev/null 2>&1 && pfetch
