@@ -187,5 +187,13 @@ else
     echo 'Install "zsh-autosuggestions" in order to use zsh autosuggestions'
 fi
 
+# Enable zsh syntax highlighting
+if [[ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+    echo 'Install "zsh-syntax-highlighting" in order to use zsh syntax highlighting'
+fi
+
+
 # Execute neofetch if available
 command -v pfetch >/dev/null 2>&1 && pfetch
