@@ -23,10 +23,18 @@ command -v brew >/dev/null 2>&1 || {
 # Install Programs
 ########################################################################################################################
 printf "::: Installing Apps ...\n\n"
-brew update
 brew upgrade
 brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
-    zsh zsh-completions
+    zsh zsh-completions zsh-syntax-highlighting font-consolas-for-powerline font-droid-sans-mono-for-powerline \
+    font-inconsolata-dz-for-powerline font-inconsolata-for-powerline font-inconsolata-for-powerline-bold \
+    font-menlo-for-powerline font-meslo-for-powerline font-powerline-symbols font-sf-mono-for-powerline vagrant
+
+brew install appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
+    microsoft-powerpoint the-unarchiver google-drive wireshark slack 4k-video-downloader 4k-youtube-to-mp3 vlc \
+    whatsapp jetbrains-toolbox virtualbox virtualbox-extension-pack handbrake mpv inkscape visual-studio-code \
+    viscosity purevpn skype spotify "local" webtorrent transmission balenaetcher
+
+# CleanMyDrive, Amphetamine, Logitech Options, Magnet
 
 
 ########################################################################################################################
@@ -117,6 +125,25 @@ test -f ~/.zshrc && {
     mv ~/.zshrc ~/.zshrc.bak
     ln -sf $(realpath ..)/.zshrc ~/.zshrc
 }
+
+
+########################################################################################################################
+# Config OSX
+########################################################################################################################
+
+# disable sudo password for admins
+read -r -d '' SUDO_NOPASSWD << 'EOM'
+Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports
+Cmnd_Alias VAGRANT_NFSD = /sbin/nfsd restart
+Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports
+%admin ALL=(root) NOPASSWD: VAGRANT_EXPORTS_ADD, VAGRANT_NFSD, VAGRANT_EXPORTS_REMOVE
+%admin ALL=(ALL) NOPASSWD: ALL
+EOM
+echo "$SUDO_NOPASSWD" | sudo tee /etc/sudoers.d/nopasswd > /dev/null
+
+# enable remote ssh access
+sudo systemsetup -setremotelogin on
+
 
 # change the shell if is not already "zsh"
 TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
