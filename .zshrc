@@ -79,17 +79,17 @@ source $ZSH/oh-my-zsh.sh
 # User configuration                                                         #
 ##############################################################################
 
-# Make globbing work like in bash, if it fails, then pass the original glob to as argument to the program
-setopt nonomatch
-
-# Disable asking confirmation for rm
-setopt rm_star_silent
-
 # path
 custom=($HOME/.dotnet/tools $HOME/.local/bin /usr/local/bin /usr/local/sbin)
 for p in $custom; do
     test -d $p && path=($p $path)
 done
+
+# Make globbing work like in bash, if it fails, then pass the original glob to as argument to the program
+setopt nonomatch
+
+# Disable asking confirmation for rm
+setopt rm_star_silent
 
 # Make zsh know about hosts already accessed by SSH
 # zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
@@ -116,7 +116,6 @@ if [[ -z $SSH_CONNECTION ]]; then
     fi
 fi
 
-
 # Command Aliases
 alias du="du -h -s"
 alias df="df -h"
@@ -125,6 +124,7 @@ command -v ipython2 >/dev/null 2>&1 && alias py2=ipython2
 
 alias py3='echo "ipython for python v3 is not installed"'
 command -v ipython3 >/dev/null 2>&1 && alias py3=ipython3
+
 
 # Utility Functions
 # forward local port to a remote port using ssh
