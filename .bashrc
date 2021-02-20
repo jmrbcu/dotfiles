@@ -1,6 +1,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# path
+CUSTOM="$HOME/.dotnet/tools $HOME/.local/bin /usr/local/bin /usr/local/sbin"
+for P in $CUSTOM; do
+    test -d $P && export PATH=$P:$PATH
+done
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -14,41 +20,93 @@ export HISTCONTROL=ignoreboth
 # I want a lot..
 export HISTFILESIZE=1000
 
-# make less more friendly for non-text input files, see lesspipe(1)
-# [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-##############################################################################
-# Platform independent configuration                                         #
-##############################################################################
-
-# ssh
-export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
-
-# Set the umaks just in case
-umask 0022
-
-# Main editor and pager
-export EDITOR='vim'
-export VISUAL='vim'
-export PAGER='less'
-
 # Set the default Less options.
-export LESS='-g -i -M -R -S -w -X -z-4'
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-# Aliases
+# Preferred editor for local and remote sessions, in this order: vim, nano
+if command -v vim >/dev/null 2>&1; then 
+    export EDITOR='vim'
+    export VISUAL='vim'
+else
+    export EDITOR='nano'
+    export VISUAL='nano'
+fi
+
+# Preferred editor for local sessions, in this order: code, vim, nano
+if [[ -z $SSH_CONNECTION ]]; then
+    if command -v code >/dev/null 2>&1; then 
+        export EDITOR='code'
+        export VISUAL='code'
+    fi
+fi
+
+# Command Aliases
 alias du="du -h -s"
 alias df="df -h"
+alias py2='echo "ipython for python v2 is not installed"'
+command -v ipython2 >/dev/null 2>&1 && alias py2=ipython2
 
-# Functions
-function f() { find . -iname "*$1*" ${@:2}; }
-function r() { grep "$1" ${@:2} -R .; }
+alias py3='echo "ipython for python v3 is not installed"'
+command -v ipython3 >/dev/null 2>&1 && alias py3=ipython3
 
-# Configure virtualenvwrapper if available
-command -v virtualenvwrapper.sh >/dev/null 2>&1 && {
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME=$HOME/Development
-    source /usr/local/bin/virtualenvwrapper.sh
+
+# Utility Functions
+# forward local port to a remote port using ssh
+function forward() {
+    if [ "$#" -eq 2 ]; then
+        ssh -L $2 $1
+    else
+        echo "::: Usage: forward <[user@]host[:port]> <local-port>:<remote-host>:<remote-port>"
+        echo ":::     <[user@]host[:port]>: Intermediate host with ssh"
+        echo ":::     <local-port>: Port on the local machine we want to forward"
+        echo ":::     <remote-host: Remote host where the local port will be forwarded to"
+        echo ":::     <remote-port: Port in the remote host where the local port will be forwarded to"
+    fi
+    
 }
+
+
+# capture traffic from a remote server
+function remote-capture() {
+    if [ "$#" -eq 2 ]; then
+        ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
+    elif [ "$#" -eq 3 ]; then
+        ssh -p $2 $1 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
+    else
+        echo "::: Usage:"
+        echo ":::    remote-capture <[user@]host> [ssh-port] <iface>\n"
+    fi
+}
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    # Command Aliases
+    alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
+    alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
+
+    # Use GNU ls instead of BSD ls if available
+    alias ls="ls -hlGF"
+    alias lsh="ls -hlGFA"
+    command -v gls >/dev/null 2>&1 && {
+        alias ls="gls -hlF --color=always --group-directories-first"
+        alias lsh="gls -hlAF --color=always --group-directories-first"
+    }
+
+    # Utility Functions
+    # Finder: hide and show hidden files
+    function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
+    function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
+else
+    # Command Aliases
+    alias ls="ls -hlF --color=always --group-directories-first"
+    alias lsh="ls -hlAF --color=always --group-directories-first"
+fi
+
+
+# Execute neofetch if available
+command -v pfetch >/dev/null 2>&1 && pfetch
+
 
 # my PS1
 if [ $(id -u) -eq 0 ]; then
@@ -56,72 +114,3 @@ if [ $(id -u) -eq 0 ]; then
 else
 	PS1="[\[\e[1;36m\]\u\[\e[0m\]@\[\e[1;33m\]\h\[\e[0m\]][\[\e[1;32m\]\@\[\e[0m\]][\[\e[1;36m\]\w\[\e[0m\]] "
 fi
-
-##############################################################################
-# Platform dependent configuration                                           #
-##############################################################################
-if [[ "$OSTYPE" == darwin* ]]; then
-    # path
-    export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-    # Add /etc/manpaths.d/ files to manpath
-    for path_file in /etc/manpaths.d/*; do
-        MANPATH=$MANPATH:$(<$path_file)
-    done
-
-    # Aliases
-    alias py='echo "ipython for python v3 is not installed, please install ipython with the following command: brew install ipython"'
-    command -v ipython >/dev/null 2>&1 && {
-        alias py=ipython
-    }
-
-    alias py2='echo "ipython for python v2 is not installed, please install ipython@5 with the following command: brew install ipython@5"'
-    command -v /usr/local/opt/ipython@5/bin/ipython >/dev/null 2>&1 && {
-        alias py2="/usr/local/opt/ipython@5/bin/ipython"
-    }
-
-    # Use GNU ls instead of BSD ls
-    alias ls="gls -hlF --color=always --group-directories-first"
-    alias lsh="gls -hlAF --color=always --group-directories-first"
-    command -v gls >/dev/null 2>&1 || {
-      echo "gls command from coreutils package is not installed, using default ls for now, please, install it with: brew install coreutils";
-      alias ls="ls -hlGF"
-      alias lsh="ls -hlAGF"
-    }
-
-    # Functions
-    function adbGetFile() { adb exec-out run-as $1 cat $2 > `basename $2`; }
-    function adbRmFile() { adb exec-out run-as $1 rm $2; }
-    function adbLsFiles() { adb exec-out run-as $1 ls -hlAFtr --color=auto $2; }
-    function getRealm() { adbGetFile $1 files/$2.realm; }
-    function rmRealm() {  adbRmFile $1 files/$2.realm; }
-
-    # Finder: hide and show hidden files
-    function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
-    function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
-    function capture() {
-        if [ "$#" -eq 2 ]; then
-            ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
-        fi
-
-        if [ "$#" -eq 3 ]; then
-            ssh $1@$2 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
-        fi
-
-        if [ "$#" -eq 4 ]; then
-            ssh -p $3 $1@$2 "tcpdump -i $4 -U -s0 -w -"| wireshark -k -i -;
-        fi
-    }
-else
-    # Aliases
-    alias ls="ls -hlF --color=always --group-directories-first"
-    alias lsh="ls -hlAF --color=always --group-directories-first"
-fi
-
-# Clear screen
-clear
-
-# Execute neofetch if available
-command -v neofetch >/dev/null 2>&1 && {
-    neofetch
-}
