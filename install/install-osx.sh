@@ -27,7 +27,8 @@ brew upgrade
 brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
     zsh zsh-completions zsh-syntax-highlighting font-consolas-for-powerline font-droid-sans-mono-for-powerline \
     font-inconsolata-dz-for-powerline font-inconsolata-for-powerline font-inconsolata-for-powerline-bold \
-    font-menlo-for-powerline font-meslo-for-powerline font-powerline-symbols font-sf-mono-for-powerline vagrant
+    font-menlo-for-powerline font-meslo-for-powerline font-powerline-symbols font-sf-mono-for-powerline vagrant \
+    pyenv pyenv-virtualenv
 
 brew install appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
     microsoft-powerpoint the-unarchiver google-drive wireshark slack 4k-video-downloader 4k-youtube-to-mp3 vlc \
@@ -95,7 +96,7 @@ test -f ~/.bashrc && {
     mv ~/.bashrc ~/.bashrc.bak
     ln -sf $(realpath ..)/.bashrc ~/.bashrc
 }
-    
+
 test -f ~/.dircolors && {
     mv ~/.dircolors ~/.dircolors.bak
     ln -sf $(realpath ..)/.dircolors ~/.dircolors
