@@ -156,10 +156,6 @@ function remote-capture() {
 
 
 if [[ "$OSTYPE" == darwin* ]]; then
-    # Command Aliases
-    alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
-    alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
-
     # Use GNU ls instead of BSD ls if available
     alias ls="ls -hlGF"
     alias lsh="ls -hlGFA"
@@ -171,11 +167,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     command -v greadlink >/dev/null 2>&1 && {
         alias readlink=greadlink
     }
-
-    # Utility Functions
-    # Finder: hide and show hidden files
-    function hiddenOn() { defaults write com.apple.Finder AppleShowAllFiles YES ; }
-    function hiddenOff() { defaults write com.apple.Finder AppleShowAllFiles NO ; }
 else
     # Command Aliases
     alias ls="ls -hlF --color=always --group-directories-first"
