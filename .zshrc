@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages jsontools python nmap fabric httpie themes urltools)
+plugins=(git colored-man-pages jsontools python pyenv nmap httpie themes urltools vagrant)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx xcode)
 fi
@@ -166,6 +166,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
     command -v gls >/dev/null 2>&1 && {
         alias ls="gls -hlF --color=always --group-directories-first"
         alias lsh="gls -hlAF --color=always --group-directories-first"
+    }
+
+    command -v greadlink >/dev/null 2>&1 && {
+        alias readlink=greadlink
     }
 
     # Utility Functions
