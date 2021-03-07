@@ -142,8 +142,12 @@ Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports
 EOM
 echo "$SUDO_NOPASSWD" | sudo tee /etc/sudoers.d/nopasswd > /dev/null
 
-# enable remote ssh access
+# finder
+
+
+# enable remote ssh access and enable network time
 sudo systemsetup -setremotelogin on
+sudo systemsetup -setusingnetworktime on
 
 
 # change the shell if is not already "zsh"
