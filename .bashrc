@@ -81,6 +81,9 @@ function remote-capture() {
 }
 
 if [[ "$OSTYPE" == darwin* ]]; then
+    # Bash Completion
+    [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
     # Command Aliases
     alias rmdd="rm -rf ~/Library/Developer/Xcode/DerivedData/*"
     alias cddd="cd ~/Library/Developer/Xcode/DerivedData/"
@@ -112,5 +115,5 @@ command -v pfetch >/dev/null 2>&1 && pfetch
 if [ $(id -u) -eq 0 ]; then
     PS1="[\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;33m\]\h\[\e[0m\]][\[\e[1;32m\]\@\[\e[0m\]][\[\e[1;36m\]\w\[\e[0m\]] "
 else
-	PS1="[\[\e[1;36m\]\u\[\e[0m\]@\[\e[1;33m\]\h\[\e[0m\]][\[\e[1;32m\]\@\[\e[0m\]][\[\e[1;36m\]\w\[\e[0m\]] "
+    PS1="[\[\e[1;36m\]\u\[\e[0m\]@\[\e[1;33m\]\h\[\e[0m\]][\[\e[1;32m\]\@\[\e[0m\]][\[\e[1;36m\]\w\[\e[0m\]] "
 fi
