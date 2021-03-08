@@ -73,6 +73,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(osx xcode)
 fi
 
+# HACK FOR ZSH COMPLETIONS
+ZSH_DISABLE_COMPFIX=true
+
 source $ZSH/oh-my-zsh.sh
 
 ##############################################################################
