@@ -189,6 +189,13 @@ else
     echo 'Install "zsh-syntax-highlighting" in order to use zsh syntax highlighting'
 fi
 
+# enable completions
+if type brew &>/dev/null; then
+    fpath=($(brew --prefix)/share/zsh-completions $fpath)
+    autoload -Uz compinit
+    compinit
+fi
+
 
 # Execute neofetch if available
 command -v pfetch >/dev/null 2>&1 && pfetch
