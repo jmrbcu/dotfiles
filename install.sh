@@ -33,6 +33,10 @@ usage() {
 
 
 install-homebrew() {
+    if ! xcode-select -p > /dev/null 2>&1; then
+        xcode-select --install
+    fi
+
     command -v brew >/dev/null 2>&1 || {
         # install Homebrew
         printf "::: Installing Homebrew ...\n\n"
