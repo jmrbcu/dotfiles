@@ -173,7 +173,8 @@ install-apps() {
         info "::: Installing Apps ...\n\n"
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
-            zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions pyenv pyenv-virtualenv subversion
+            zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions pyenv pyenv-virtualenv \
+            subversion gnu-tar
 
         info "\n\n::: Installing Cask Apps ...\n\n"
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
