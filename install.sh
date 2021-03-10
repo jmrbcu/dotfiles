@@ -179,7 +179,7 @@ install-apps() {
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
             microsoft-powerpoint the-unarchiver google-drive wireshark slack 4k-video-downloader 4k-youtube-to-mp3 vlc \
             whatsapp jetbrains-toolbox virtualbox virtualbox-extension-pack handbrake mpv inkscape visual-studio-code \
-            viscosity purevpn skype spotify "local" webtorrent transmission balenaetcher vagrant
+            viscosity purevpn skype spotify "local" webtorrent transmission balenaetcher vagrant gfxcardstatus turbo-boost-switcher
 
         info "Download and install by hand: CleanMyDrive, Amphetamine, Logitech Options, Magnet\n\n"
     elif command -v yum >/dev/null 2>&1; then
