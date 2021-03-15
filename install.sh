@@ -178,7 +178,7 @@ install-apps() {
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
             zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions pyenv pyenv-virtualenv \
-            subversion gnu-tar sox mysql
+            subversion gnu-tar sox mysql coreutils
 
         info "\n\n::: Installing Cask Apps ...\n\n"
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
@@ -188,7 +188,7 @@ install-apps() {
 
         info "Download and install by hand: CleanMyDrive, Amphetamine, Logitech Options, Magnet\n\n"
     elif command -v yum >/dev/null 2>&1; then
-        sudo yum -y install edhat-lsb-core cabextract p7zip p7zip-plugins unrar xz mc htop bash-completion ctags \
+        sudo yum -y install redhat-lsb-core cabextract p7zip p7zip-plugins unrar xz mc htop bash-completion ctags \
             git subversion elinks curl wget coreutils
     elif command -v apt-get >/dev/null 2>&1; then
         sudo apt-get -y update
