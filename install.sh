@@ -140,10 +140,14 @@ install-zsh() {
         brew install zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions
     elif command -v yum >/dev/null 2>&1; then
         sudo yum -y install zsh zsh-autosuggestions zsh-syntax-highlighting
-        git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
+        if [[ ! -d ~/.zsh-completions ]]; then
+            git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
+        fi
     elif command -v apt-get >/dev/null 2>&1; then
         sudo apt-get -y install zsh zsh-autosuggestions zsh-syntax-highlighting
-        git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
+        if [[ ! -d ~/.zsh-completions ]]; then
+            git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
+        fi
     else
         abort "::: Unsupported OS"
     fi
