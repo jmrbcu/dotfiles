@@ -183,6 +183,8 @@ if [[ -e /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif [[ -e /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
 else
     echo 'Install "zsh-autosuggestions" in order to use zsh autosuggestions'
 fi
@@ -192,6 +194,8 @@ if [[ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 elif [[ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -e ~/.zsh-syntax-highlighting ]]; then
+    source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
     echo 'Install "zsh-syntax-highlighting" in order to use zsh syntax highlighting'
 fi

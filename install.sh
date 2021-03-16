@@ -139,7 +139,15 @@ install-zsh() {
         install-homebrew
         brew install zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions
     elif command -v yum >/dev/null 2>&1; then
-        sudo yum -y install zsh zsh-autosuggestions zsh-syntax-highlighting
+        sudo yum -y install zsh
+        if [[ ! -d ~/.zsh-autosuggestions ]]; then
+            git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh-autosuggestions
+        fi 
+
+        if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
+            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
+        fi
+
         if [[ ! -d ~/.zsh-completions ]]; then
             git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
         fi
