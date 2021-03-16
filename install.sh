@@ -141,11 +141,13 @@ install-zsh() {
     if [[ "$OS" = "darwin" ]]; then
         # install homebrew if is not installed
         install-homebrew
-        brew list zsh > /dev/null 2>&1 || brew install zsh
+        brew install zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions
     elif command -v yum >/dev/null 2>&1; then
-        sudo yum -y install zsh
+        sudo yum -y install zsh zsh-autosuggestions zsh-syntax-highlighting
+        git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
     elif command -v apt-get >/dev/null 2>&1; then
-        sudo apt-get -y install zsh
+        sudo apt-get -y install zsh zsh-autosuggestions zsh-syntax-highlighting
+        git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
     else
         abort "::: Unsupported OS"
     fi
@@ -177,8 +179,7 @@ install-apps() {
         info "::: Installing Apps ...\n\n"
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
-            zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions pyenv pyenv-virtualenv \
-            subversion gnu-tar sox mysql coreutils
+             pyenv pyenv-virtualenv subversion gnu-tar sox mysql coreutils
 
         info "\n\n::: Installing Cask Apps ...\n\n"
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
@@ -193,8 +194,7 @@ install-apps() {
     elif command -v apt-get >/dev/null 2>&1; then
         sudo apt-get -y update
         sudo apt-get -y install lsb-release cabextract p7zip-full xz-utils rpm mc htop bash-completion exuberant-ctags \
-            git subversion elinks curl wget
-    else
+            git subversion elinks curl wget coreutils
         abort "::: Unsupported OS"
     fi
 }
@@ -221,8 +221,8 @@ elif [[ $# = 1 ]]; then
     elif [[ "$1" = "all" ]]; then
         install-configs
         install-vim
-        install-zsh
         install-apps
+        install-zsh
     else
         error "::: Invalid options: $*"
         usage

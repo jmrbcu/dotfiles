@@ -181,6 +181,8 @@ fi
 # Also, take a look at: FZF at: https://github.com/junegunn/fzf
 if [[ -e /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -e /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 else
     echo 'Install "zsh-autosuggestions" in order to use zsh autosuggestions'
 fi
@@ -188,6 +190,8 @@ fi
 # Enable zsh syntax highlighting
 if [[ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
     echo 'Install "zsh-syntax-highlighting" in order to use zsh syntax highlighting'
 fi
@@ -195,9 +199,11 @@ fi
 # enable completions
 if type brew &>/dev/null; then
     fpath=($(brew --prefix)/share/zsh-completions $fpath)
-    autoload -Uz compinit
-    compinit
+elif type yum &>/dev/null || type apt &>/dev/null; then
+    fpath=(~/.zsh-completions/src $fpath)
 fi
+autoload -Uz compinit
+compinit
 
 
 # Execute neofetch if available
