@@ -136,8 +136,6 @@ fix-centos6-repos() {
         -i /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
     }
     sudo rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-SCLo >/dev/null
-  else
-    abort "Unsupported linux distribution, we only support: redhat based distros"
   fi
 }
 
