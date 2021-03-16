@@ -139,7 +139,10 @@ install-zsh() {
         install-homebrew
         brew install zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions
     elif command -v yum >/dev/null 2>&1; then
-        sudo yum -y install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm
+        if ! rpm -ql wandisco-git-release; then
+            sudo yum -y install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm
+        fi
+        
         sudo yum -y install git zsh
         if [[ ! -d ~/.zsh-autosuggestions ]]; then
             git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh-autosuggestions
