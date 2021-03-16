@@ -165,7 +165,7 @@ install-zsh() {
     # change the shell if is not already "zsh"
     TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
     if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
-        sudo chsh -s $(grep /zsh$ /etc/shells | tail -1)
+        sudo chsh -s $(grep /zsh$ /etc/shells | tail -1) $USER
     fi
 }
 
