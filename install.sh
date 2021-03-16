@@ -2,8 +2,8 @@
 set -eE
 cd $(dirname "$0")
 
+# include files
 . lib.sh
-
 
 usage() {
     info "::: Description:"
@@ -31,9 +31,8 @@ usage() {
     info "::: "
 }
 
-
 install-homebrew() {
-    if ! xcode-select -p > /dev/null 2>&1; then
+    if ! xcode-select -p >/dev/null 2>&1; then
         xcode-select --install
     fi
 
@@ -44,7 +43,6 @@ install-homebrew() {
         printf "\n\n"
     }
 }
-
 
 install-configs() {
     # diable login messages
@@ -88,11 +86,11 @@ install-configs() {
 
         # disable sudo password for admins
         if [[ ! -f /etc/sudoers.d/nopasswd ]]; then
-            echo "Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd > /dev/null
-            echo "Cmnd_Alias VAGRANT_NFSD = /sbin/nfsd restart" | sudo tee -a /etc/sudoers.d/nopasswd > /dev/null
-            echo "Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd > /dev/null
-            echo "%admin ALL=(root) NOPASSWD: VAGRANT_EXPORTS_ADD, VAGRANT_NFSD, VAGRANT_EXPORTS_REMOVE" | sudo tee -a /etc/sudoers.d/nopasswd > /dev/null
-            echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd > /dev/null
+            echo "Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
+            echo "Cmnd_Alias VAGRANT_NFSD = /sbin/nfsd restart" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
+            echo "Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
+            echo "%admin ALL=(root) NOPASSWD: VAGRANT_EXPORTS_ADD, VAGRANT_NFSD, VAGRANT_EXPORTS_REMOVE" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
+            echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
         fi
 
         # restart dock and finder
@@ -100,13 +98,12 @@ install-configs() {
     fi
 }
 
-
 install-vim() {
     info "::: Installing vim ..."
     if [[ "$OS" = "darwin" ]]; then
         # install homebrew if is not installed
         install-homebrew
-        brew list vim > /dev/null 2>&1 || brew install vim
+        brew list vim >/dev/null 2>&1 || brew install vim
     elif command -v yum >/dev/null 2>&1; then
         sudo yum -y install vim
     elif command -v apt-get >/dev/null 2>&1; then
@@ -134,7 +131,6 @@ install-vim() {
         sh ~/.vim_runtime/install_awesome_vimrc.sh
     fi
 }
-
 
 install-zsh() {
     info "::: Installing zsh ..."
@@ -173,13 +169,12 @@ install-zsh() {
     fi
 }
 
-
 install-apps() {
     if [[ "$OS" = "darwin" ]]; then
         info "::: Installing Apps ...\n\n"
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
-             pyenv pyenv-virtualenv subversion gnu-tar sox mysql coreutils
+            pyenv pyenv-virtualenv subversion gnu-tar sox mysql coreutils
 
         info "\n\n::: Installing Cask Apps ...\n\n"
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
@@ -195,11 +190,10 @@ install-apps() {
         sudo apt-get -y update
         sudo apt-get -y install lsb-release cabextract p7zip-full xz-utils rpm mc htop bash-completion exuberant-ctags \
             git subversion elinks curl wget coreutils
+    else
         abort "::: Unsupported OS"
     fi
 }
-
-
 
 # detect OS
 system-detect
@@ -213,12 +207,16 @@ elif [[ $# = 1 ]]; then
     elif [[ "$1" = "configs" ]]; then
         install-configs
     elif [[ "$1" = "vim" ]]; then
+        fix-centos6-repos
         install-vim
     elif [[ "$1" = "zsh" ]]; then
+        fix-centos6-repos
         install-zsh
     elif [[ "$1" = "apps" ]]; then
+        fix-centos6-repos
         install-apps
     elif [[ "$1" = "all" ]]; then
+        fix-centos6-repos
         install-configs
         install-vim
         install-apps
