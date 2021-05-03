@@ -75,6 +75,9 @@ install-configs() {
     test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
     ln -sf $(pwd)/.zshrc ~/.zshrc
 
+    test -f ~/.nanorc && mv ~/.nanorc ~/.nanorc.bak
+    ln -sf $(pwd)/.nanorc ~/.nanorc
+
     if [[ "$OS" = "darwin" ]]; then
         info "::: Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
         info "::: Restoring iTerm2 configs" && defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
