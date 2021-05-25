@@ -54,6 +54,9 @@ install-configs() {
     test -f ~/.profile && mv ~/.profile ~/.profile.bak
     ln -sf $(pwd)/.profile ~/.profile
 
+    test -f ~/.zprofile && mv ~/.zprofile ~/.zprofile.bak
+    ln -sf $(pwd)/.zprofile ~/.zprofile
+
     test -f ~/.bashrc && mv ~/.bashrc ~/.bashrc.bak
     ln -sf $(pwd)/.bashrc ~/.bashrc
 
