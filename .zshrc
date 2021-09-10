@@ -130,6 +130,19 @@ command -v ipython3 >/dev/null 2>&1 && alias py3=ipython3
 
 
 # Utility Functions
+
+# creates a local socks proxy using the remote server as exit point
+function proxy() {
+    if [ "$#" -eq 2 ]; then
+        echo "::: Listening in: localhost:$2"
+        ssh -D $2 -q -C -N $1
+    else
+        echo "::: Usage: proxy <[user@]host[:port]> <local-port>"
+        echo ":::     <[user@]host[:port]>: exit point host"
+        echo ":::     <local-port>: Port on the local machine we want to forward"
+    fi
+}
+
 # forward local port to a remote port using ssh
 function forward() {
     if [ "$#" -ge 2  ]; then
@@ -137,7 +150,7 @@ function forward() {
             params="-L $arg $params"
         done
         echo "$params $1"
-        eval "ssh $params $1"
+        eval "ssh -q -N -C $params $1"
         unset params
     else
         echo "::: Usage: forward <[user@]host[:port]> <local-port>:<remote-host>:<remote-port> ... <local-port>:<remote-host>:<remote-port>"
@@ -152,9 +165,9 @@ function forward() {
 # capture traffic from a remote server
 function remote-capture() {
     if [ "$#" -eq 2 ]; then
-        ssh $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
+        ssh -q -N -C $1 "tcpdump -i $2 -U -s0 -w -"| wireshark -k -i -;
     elif [ "$#" -eq 3 ]; then
-        ssh -p $2 $1 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
+        ssh -q -N -C -p $2 $1 "tcpdump -i $3 -U -s0 -w -"| wireshark -k -i -;
     else
         echo "::: Usage:"
         echo ":::    remote-capture <[user@]host> [ssh-port] <iface>\n"
