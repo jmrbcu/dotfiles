@@ -132,16 +132,20 @@ command -v ipython3 >/dev/null 2>&1 && alias py3=ipython3
 # Utility Functions
 # forward local port to a remote port using ssh
 function forward() {
-    if [ "$#" -eq 2 ]; then
-        ssh -L $2 $1
+    if [ "$#" -ge 2  ]; then
+        for arg in "${@:2}"; do
+            params="-L $arg $params"
+        done
+        echo "$params $1"
+        eval "ssh $params $1"
+        unset params
     else
-        echo "::: Usage: forward <[user@]host[:port]> <local-port>:<remote-host>:<remote-port>"
+        echo "::: Usage: forward <[user@]host[:port]> <local-port>:<remote-host>:<remote-port> ... <local-port>:<remote-host>:<remote-port>"
         echo ":::     <[user@]host[:port]>: Intermediate host with ssh"
         echo ":::     <local-port>: Port on the local machine we want to forward"
         echo ":::     <remote-host: Remote host where the local port will be forwarded to"
         echo ":::     <remote-port: Port in the remote host where the local port will be forwarded to"
     fi
-    
 }
 
 
@@ -212,3 +216,6 @@ compinit
 
 # Execute neofetch if available
 command -v pfetch >/dev/null 2>&1 && pfetch
+
+# activate pyenv-virtualenv
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
