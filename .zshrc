@@ -231,4 +231,4 @@ compinit
 command -v pfetch >/dev/null 2>&1 && pfetch
 
 # activate pyenv-virtualenv
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+command -v pyenv-virtualenv-init > /dev/null && eval "$(pyenv virtualenv-init -)"
