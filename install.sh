@@ -148,11 +148,11 @@ install-zsh() {
         if ! rpm -ql wandisco-git-release; then
             sudo yum -y install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm
         fi
-        
+
         sudo yum -y install git zsh
         if [[ ! -d ~/.zsh-autosuggestions ]]; then
             git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh-autosuggestions
-        fi 
+        fi
 
         if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
             git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
@@ -195,8 +195,8 @@ install-apps() {
     if [[ "$OS" = "darwin" ]]; then
         info "::: Installing Apps ...\n\n"
         brew upgrade
-        brew install bash-completion wget curl htop mc cabextract p7zip xz rpm git subversion pfetch vim \
-            pyenv pyenv-virtualenv subversion gnu-tar sox mysql coreutils
+        brew install bash-completion wget curl htop mc cabextract p7zip xz rpm dpkg git subversion pfetch vim \
+            pyenv pyenv-virtualenv subversion gnu-tar sox mysql freetds coreutils
 
         info "\n\n::: Installing Cask Apps ...\n\n"
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
