@@ -34,3 +34,5 @@ pip-log.txt
 .tox
 nosetests.xml
 
+# Vagrant stuff
+.vagrant
