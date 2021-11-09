@@ -70,7 +70,7 @@ ZSH_THEME="afowler"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git colored-man-pages jsontools python pyenv nmap httpie themes urltools vagrant)
 if [[ "$OSTYPE" == darwin* ]]; then
-    plugins+=(osx xcode)
+    plugins+=(macos xcode)
 fi
 
 # HACK FOR ZSH COMPLETIONS
