@@ -3,45 +3,6 @@
 
 set -eE
 
-CENTOS_REPO=$(cat <<EOM
-[base]
-name=CentOS-6.10 - Base
-baseurl=https://vault.centos.org/centos/6.10/os/x86_64/
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-
-#released updates
-[updates]
-name=CentOS-6.10 - Updates
-baseurl=https://vault.centos.org/centos/6.10/updates/x86_64/
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-
-#additional packages that may be useful
-[extras]
-name=CentOS-6.10 - Extras
-baseurl=https://vault.centos.org/centos/6.10/extras/x86_64/
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-
-#additional packages that extend functionality of existing packages
-[centosplus]
-name=CentOS-6.10 - Plus
-baseurl=https://vault.centos.org/centos/6.10/centosplus/x86_64/
-gpgcheck=1
-enabled=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-
-#contrib - packages by Centos Users
-[contrib]
-name=CentOS-6.10 - Contrib
-baseurl=https://vault.centos.org/centos/6.10/contrib/x86_64/
-gpgcheck=1
-enabled=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-EOM
-)
-
 # initialize the terminal with color support
 if [[ -t 1 ]]; then
     # see if it supports colors...
@@ -129,67 +90,6 @@ system-detect() {
             BASE_DIST=redhat
         fi
 
-    fi
-}
-
-fix-centos6-repos() {
-    # must run system-detect first
-    if [[ "$BASE_DIST" = "redhat" && "$VER" =~ 6.[0-9]+ ]]; then
-        info "::: Fixing CentOS repositories ...\n"
-
-        # base
-        sudo cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.old
-        echo "$CENTOS_REPO" | sudo tee /etc/yum.repos.d/CentOS-Base.repo >/dev/null
-
-        # remove unused repositories
-        sudo rm -rf /etc/yum.repos.d/CentOS-fasttrack.repo* /etc/yum.repos.d/CentOS-Vault.repo* \
-            /etc/yum.repos.d/CentOS-Debuginfo.repo* /etc/yum.repos.d/CentOS-Media.repo \
-            /etc/yum.repos.d/*rpmforge* /etc/yum.repos.d/*rpmfusion*
-
-        # SCL: First pass just in case is already broken
-        test -e /etc/yum.repos.d/CentOS-SCLo-scl.repo && {
-            sudo cp /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.old
-            sudo sed -e '/mirrorlist=.*/d' \
-                -e 's/#\s*baseurl=/baseurl=/' \
-                -e "s/baseurl=.*/baseurl=http:\/\/vault.centos.org\/6.10\/sclo\/x86_64\/sclo/g" \
-                -i /etc/yum.repos.d/CentOS-SCLo-scl.repo
-        }
-
-        test -e /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo && {
-            sudo cp /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.old
-            sudo sed -e '/mirrorlist=.*/d' \
-                -e 's/#\s*baseurl=/baseurl=/' \
-                -e "s/baseurl=.*/baseurl=http:\/\/vault.centos.org\/6.10\/sclo\/x86_64\/rh/g" \
-                -i /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
-        }
-        sudo rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-SCLo || rpm --import keys/scl.key
-
-        # epel and SCL
-        if yum -C repolist epel | grep epel; then
-            sudo yum -y update ca-certificates nss curl --disablerepo=epel
-        else
-            sudo yum -y update ca-certificates nss curl
-        fi
-        sudo yum -y install https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm centos-release-scl
-
-        # SCL
-        test -e /etc/yum.repos.d/CentOS-SCLo-scl.repo && {
-            sudo cp /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.old
-            sudo sed -e '/mirrorlist=.*/d' \
-                -e 's/#\s*baseurl=/baseurl=/' \
-                -e "s/baseurl=.*/baseurl=http:\/\/vault.centos.org\/6.10\/sclo\/x86_64\/sclo/g" \
-                -i /etc/yum.repos.d/CentOS-SCLo-scl.repo
-        }
-
-        test -e /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo && {
-            sudo cp /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.old
-            sudo sed -e '/mirrorlist=.*/d' \
-                -e 's/#\s*baseurl=/baseurl=/' \
-                -e "s/baseurl=.*/baseurl=http:\/\/vault.centos.org\/6.10\/sclo\/x86_64\/rh/g" \
-                -i /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
-        }
-
-        printf "\n\n"
     fi
 }
 
@@ -420,12 +320,8 @@ main() {
     fi
 
     system-detect
-    if [[ "$1" != "configs" ]]; then
-        if [[ "$BASE_DIST" = "macos" ]]; then
-            install-homebrew
-        elif [[ "$BASE_DIST" = "redhat" && "$VER" =~ 6.[0-9]+ ]]; then
-            fix-centos6-repos
-        fi
+    if [[ "$1" != "configs" && "$BASE_DIST" = "macos" ]]; then
+        install-homebrew
     fi
 
     for CMD in ${CMDS[*]}; do
