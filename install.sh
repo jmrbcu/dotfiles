@@ -89,8 +89,8 @@ usage() {
     info ":::   # install the whole shebang"
     info ":::   install.sh all"
     info ":::"
-    info ":::   # install only mysql"
-    info ":::   install.sh mysql"
+    info ":::   # install only vim"
+    info ":::   install.sh vim"
     info "::: "
 }
 
@@ -136,7 +136,7 @@ fix-centos6-repos() {
     # must run system-detect first
     if [[ "$BASE_DIST" = "redhat" && "$VER" =~ 6.[0-9]+ ]]; then
         info "::: Fixing CentOS repositories ...\n"
-        
+
         # base
         sudo cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.old
         echo "$CENTOS_REPO" | sudo tee /etc/yum.repos.d/CentOS-Base.repo >/dev/null
@@ -298,7 +298,7 @@ install-apps() {
     if [[ "$BASE_DIST" = "macos" ]]; then
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz zlib rpm dpkg subversion pfetch vim \
-            pyenv pyenv-virtualenv subversion gnu-tar sox mysql freetds coreutils openssl readline sqlite3 watch \
+            pyenv pyenv-virtualenv subversion gnu-tar sox mariadb freetds coreutils openssl readline sqlite3 watch \
             ruby telnet nmap httpie
 
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
@@ -397,6 +397,7 @@ install-zsh() {
     fi
 
     info "::: Remember to run: rm -f ~/.zcompdump; compinit when finished inside zsh shell"
+    info "::: If you are getting permissions problems on OSX, run this: compaudit | xargs chmod g-w"
     printf "\n\n"
 }
 
