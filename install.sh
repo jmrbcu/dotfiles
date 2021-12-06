@@ -3,6 +3,9 @@
 
 set -eE
 
+# move to script directory so all relative paths work
+cd "$(dirname "$0" 2>/dev/null)"
+
 # initialize the terminal with color support
 if [[ -t 1 ]]; then
     # see if it supports colors...
