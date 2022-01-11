@@ -1,34 +1,27 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$version = :unknown
-case RUBY_PLATFORM
-  when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-    $version = :windows
-  when /darwin|mac os/
-    $version = :macosx
-  when /linux/
-    $version = :linux
-  when /solaris|bsd/
-    $version = :unix
-end
-
 Vagrant.configure("2") do |config|
-  config.vbguest.auto_update = false
+    config.vbguest.auto_update = false
+    config.vm.provider "virtualbox" do |vb, override|
+      vb.gui = false
+      vb.cpus = 2
+      vb.memory = 2048
+    end
   
   config.vm.define "centos6", primary: true do |centos6|
     centos6.vm.box = "generic/centos6"
-    centos6.vm.hostname = "CentOS6"
+    centos6.vm.hostname = "CentOS6-DotFiles"
     centos6.vm.provider "virtualbox" do |vb|
-      vb.name = centos6.vm.hostname + "-Dotfiles"
+      vb.name = centos6.vm.hostname
     end
   end
 
   config.vm.define "debian11" do |debian11|
     debian11.vm.box = "generic/debian11"
-    debian11.vm.hostname = "Debian11"
+    debian11.vm.hostname = "Debian11-DotFiles"
     debian11.vm.provider "virtualbox" do |vb|
-      vb.name = debian11.vm.hostname + "-Dotfiles"
+      vb.name = debian11.vm.hostname
     end
   end
 
