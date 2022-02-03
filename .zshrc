@@ -83,7 +83,7 @@ source $ZSH/oh-my-zsh.sh
 ##############################################################################
 
 # path
-custom=($HOME/.dotnet/tools $HOME/.local/bin /usr/local/bin /usr/local/sbin)
+custom=($HOME/.dotnet/tools $HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/local/opt/ruby/bin)
 for p in $custom; do
     test -d $p && path=($p $path)
 done
