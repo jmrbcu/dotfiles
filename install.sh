@@ -275,7 +275,7 @@ install-zsh() {
         fi
 
         if [[ ! -d ~/.zsh-completions ]]; then
-            git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
+            git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
         fi
     else
         abort "::: Unsupported OS"
