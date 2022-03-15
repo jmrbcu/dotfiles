@@ -187,6 +187,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
     command -v greadlink >/dev/null 2>&1 && {
         alias readlink=greadlink
     }
+
+    command -v gtar >/dev/null 2>&1 && {
+        alias tar=gtar
+    }
 else
     # Command Aliases
     alias ls="ls -hlF --color=always --group-directories-first"
