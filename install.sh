@@ -121,9 +121,6 @@ install-git() {
     if [[ "$BASE_DIST" = "macos" ]]; then
         brew install git
     elif [[ "$BASE_DIST" = "redhat" ]]; then
-        if [[ "$VER" =~ 6.[0-9]+ ]]; then
-            sudo yum -y install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm || :
-        fi
         sudo yum -y install git
     elif [[ "$BASE_DIST" = "debian" ]]; then
         sudo apt-get -y install git

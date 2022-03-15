@@ -14,8 +14,12 @@
 [diff]
 	tool = vscode
 
+[difftool]
+    prompt = false
+
 [difftool "vscode"]
     cmd = code --reuse-window --wait --diff "$LOCAL" "$REMOTE"
+    trustExitCode = false
 
 # USE: git mergetool
 [merge]
@@ -23,3 +27,4 @@
 
 [mergetool "vscode"]
 	cmd = code --reuse-window --wait "$MERGED"
+
