@@ -223,7 +223,7 @@ fi
 
 # enable completions
 if type brew &>/dev/null; then
-    fpath=($(brew --prefix)/share/zsh-completions $fpath)
+    fpath=(/usr/local/share/zsh-completions $fpath)
 elif type yum &>/dev/null || type apt &>/dev/null; then
     fpath=(~/.zsh-completions/src $fpath)
 fi
