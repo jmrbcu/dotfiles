@@ -179,10 +179,6 @@ install-configs() {
 
         # disable sudo password for admins
         if [[ ! -f /etc/sudoers.d/nopasswd ]]; then
-            echo "Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
-            echo "Cmnd_Alias VAGRANT_NFSD = /sbin/nfsd restart" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
-            echo "Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
-            echo "%admin ALL=(root) NOPASSWD: VAGRANT_EXPORTS_ADD, VAGRANT_NFSD, VAGRANT_EXPORTS_REMOVE" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
             echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
         fi
 
