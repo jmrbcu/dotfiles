@@ -179,6 +179,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # Use GNU ls instead of BSD ls if available
     alias ls="ls -hlGF"
     alias lsh="ls -hlGFA"
+
+    command -v pyenv >/dev/null 2>&1 && {
+        alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+    }
+
     command -v gls >/dev/null 2>&1 && {
         alias ls="gls -hlF --color=always --group-directories-first"
         alias lsh="gls -hlAF --color=always --group-directories-first"
@@ -233,6 +238,3 @@ compinit
 
 # Execute neofetch if available
 command -v pfetch >/dev/null 2>&1 && pfetch
-
-# activate pyenv-virtualenv
-command -v pyenv-virtualenv-init > /dev/null && eval "$(pyenv virtualenv-init -)"
