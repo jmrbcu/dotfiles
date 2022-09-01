@@ -103,13 +103,7 @@ zstyle ":completion:*:commands" rehash 1
 
 # Set the default Less options.
 export LESS='-c -g -i -M -R -S -w -X -z-4'
-command -v source-highlight >/dev/null 2>&1 && {
-    LESSPIPE=$(command -v src-hilite-lesspipe.sh)
-    if [[ -z "$LESSPIPE" && -f /usr/share/source-highlight/src-hilite-lesspipe.sh ]]; then
-        LESSPIPE=/usr/share/source-highlight/src-hilite-lesspipe.sh
-    fi
-    test -n "$LESSPIPE" && export LESSOPEN="| ${LESSPIPE} %s"
-}
+command -v source-highlight >/dev/null 2>&1 && export LESSOPEN="| $HOME/.dotfiles/less.sh %s"
 
 # Preferred editor for local and remote sessions, in this order: vim, nano
 EDITOR="$(command -v vim 2>/dev/null || command -v nano)"
