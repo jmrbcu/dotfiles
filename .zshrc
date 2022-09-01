@@ -107,21 +107,8 @@ zstyle ":completion:*:commands" rehash 1
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Preferred editor for local and remote sessions, in this order: vim, nano
-if command -v vim >/dev/null 2>&1; then 
-    export EDITOR='vim'
-    export VISUAL='vim'
-else
-    export EDITOR='nano'
-    export VISUAL='nano'
-fi
+EDITOR="$(command -v vim 2>/dev/null || command -v nano)"
 
-# Preferred editor for local sessions, in this order: code, vim, nano
-if [[ -z $SSH_CONNECTION ]]; then
-    if command -v code >/dev/null 2>&1; then 
-        export EDITOR='code'
-        export VISUAL='code'
-    fi
-fi
 
 # Command Aliases
 alias du="du -h -s"
