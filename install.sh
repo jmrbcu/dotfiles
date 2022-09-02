@@ -197,7 +197,7 @@ install-apps() {
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz zlib rpm dpkg pfetch vim \
             pyenv pyenv-virtualenv subversion gnu-tar sox mariadb freetds coreutils openssl readline sqlite3 watch \
-            ruby telnet nmap httpie squashfs
+            ruby telnet nmap httpie squashfs source-highlight
 
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
             microsoft-powerpoint the-unarchiver google-drive wireshark slack 4k-video-downloader 4k-youtube-to-mp3 vlc \
@@ -207,12 +207,12 @@ install-apps() {
         info "Download and install by hand: CleanMyDrive, Amphetamine, Logitech Options, Magnet\n\n"
     elif [[ "$BASE_DIST" = "redhat" ]]; then
         sudo yum -y install redhat-lsb-core cabextract p7zip p7zip-plugins unrar xz mc htop bash-completion ctags \
-            elinks curl wget coreutils telnet nmap net-tools bind-utils rpm-build
+            elinks curl wget coreutils telnet nmap net-tools bind-utils rpm-build source-highlight
     elif [[ "$BASE_DIST" = "debian" ]]; then
         sudo apt-get -y update
         sudo apt-get -y upgrade
         sudo apt-get -y install lsb-release cabextract p7zip-full xz-utils rpm mc htop bash-completion exuberant-ctags \
-            elinks curl wget coreutils telnet nmap net-tools dnsutils psmisc
+            elinks curl wget coreutils telnet nmap net-tools dnsutils psmisc source-highlight
     else
         abort "::: Unsupported OS"
     fi
