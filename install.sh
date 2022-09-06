@@ -168,7 +168,7 @@ install-configs() {
     test -f ~/.nanorc && mv ~/.nanorc ~/.nanorc.bak
     ln -sf $(pwd)/.nanorc ~/.nanorc
 
-    cp mc.ini $HOME/.config/mc/ini
+    mkdir -p $HOME/.config/mc && cp ./mc.ini $HOME/.config/mc/ini
 
     if [[ "$BASE_DIST" = "macos" ]]; then
         info "::: Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
