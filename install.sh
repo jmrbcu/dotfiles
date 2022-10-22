@@ -141,8 +141,8 @@ install-configs() {
     test -f ~/.profile && mv ~/.profile ~/.profile.bak
     ln -sf $(pwd)/.profile ~/.profile
 
-    test -f ~/.zprofile && mv ~/.zprofile ~/.zprofile.bak
-    ln -sf $(pwd)/.zprofile ~/.zprofile
+    test -f ~/.common.sh && mv ~/.common.sh ~/.common.bak
+    ln -sf $(pwd)/.common.sh ~/.common.sh
 
     test -f ~/.bashrc && mv ~/.bashrc ~/.bashrc.bak
     ln -sf $(pwd)/.bashrc ~/.bashrc
@@ -164,6 +164,9 @@ install-configs() {
 
     test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
     ln -sf $(pwd)/.zshrc ~/.zshrc
+
+    test -f ~/.p10k.zsh && mv ~/.p10k.zsh ~/.p10k.zsh.bak
+    ln -sf $(pwd)/.dotfiles/.p10k.zsh ~/.p10k.zsh
 
     test -f ~/.nanorc && mv ~/.nanorc ~/.nanorc.bak
     ln -sf $(pwd)/.nanorc ~/.nanorc
@@ -283,11 +286,11 @@ install-zsh() {
 
     # oh-my-zsh installation overwrote our .zshrc, put it back
     test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
-    ln -sf ~/.dotfiles/.zshrc ~/.zshrc
+    ln -sf $(pwd)/.zshrc ~/.zshrc
 
     # link our p10k config
     test -f ~/.p10k.zsh && mv ~/.p10k.zsh ~/.p10k.zsh.bak
-    ln -sf ~/.dotfiles/.p10k.zsh ~/.p10k.zsh
+    ln -sf $(pwd)/.p10k.zsh ~/.p10k.zsh
 
     # change the shell if is not already "zsh"
     TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
