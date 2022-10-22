@@ -197,7 +197,7 @@ install-apps() {
         brew upgrade
         brew install bash-completion wget curl htop mc cabextract p7zip xz zlib rpm dpkg pfetch vim \
             pyenv pyenv-virtualenv subversion gnu-tar sox mariadb freetds coreutils openssl readline sqlite3 watch \
-            ruby telnet nmap httpie squashfs source-highlight
+            ruby telnet nmap httpie squashfs source-highlight fzf
 
         brew install --cask -f appcleaner acorn anydesk adobe-acrobat-reader google-chrome microsoft-word microsoft-excel \
             microsoft-powerpoint the-unarchiver google-drive wireshark slack 4k-video-downloader 4k-youtube-to-mp3 vlc \
@@ -212,7 +212,7 @@ install-apps() {
         sudo apt-get -y update
         sudo apt-get -y upgrade
         sudo apt-get -y install lsb-release cabextract p7zip-full xz-utils rpm mc htop bash-completion exuberant-ctags \
-            elinks curl wget coreutils telnet nmap net-tools dnsutils psmisc source-highlight
+            elinks curl wget coreutils telnet nmap net-tools dnsutils psmisc source-highlight fzf
     else
         abort "::: Unsupported OS"
     fi
@@ -254,7 +254,7 @@ install-zsh() {
     info "::: Installing zsh ...\n"
 
     if [[ "$BASE_DIST" = "macos" ]]; then
-        brew install zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions
+        brew install zsh
     elif [[ "$OS" = "linux" ]]; then
         if [[ "$BASE_DIST" = "redhat" ]]; then
             sudo yum -y install zsh
@@ -262,18 +262,6 @@ install-zsh() {
             sudo apt-get -y install zsh
         else
             abort "::: Unsupported OS: $BASE_DIST"
-        fi
-
-        if [[ ! -d ~/.zsh-autosuggestions ]]; then
-            git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh-autosuggestions
-        fi
-
-        if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
-            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
-        fi
-
-        if [[ ! -d ~/.zsh-completions ]]; then
-            git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
         fi
     else
         abort "::: Unsupported OS"
@@ -283,6 +271,15 @@ install-zsh() {
     if [[ ! -d ~/.oh-my-zsh ]]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     fi
+
+    # powerline10k theme
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+    # install zsh-syntax-highlighting 
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+    # install zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
     # oh-my-zsh installation overwrote our .zshrc, put it back
     test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
