@@ -285,6 +285,10 @@ install-zsh() {
     test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
     ln -sf ~/.dotfiles/.zshrc ~/.zshrc
 
+    # link our p10k config
+    test -f ~/.p10k.zsh && mv ~/.p10k.zsh ~/.p10k.zsh.bak
+    ln -sf ~/.dotfiles/.p10k.zsh ~/.p10k.zsh
+
     # change the shell if is not already "zsh"
     TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
     if [[ "$TEST_CURRENT_SHELL" != "zsh" ]]; then
