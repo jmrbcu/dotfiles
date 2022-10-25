@@ -18,8 +18,11 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-[[ $ZSH_VERSION == (5.<1->*|<6->.*) ]] || ZSH_THEME="robbyrussell"
+if [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]]; then 
+  ZSH_THEME="powerlevel10k/powerlevel10k"
+else
+  ZSH_THEME="robbyrussell"
+fi
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -116,7 +119,9 @@ zstyle ":completion:*:commands" rehash 1
 # compinit
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]]; then
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
 
 # include our custom config for both: zsh and bash
 [[ ! -f ~/.common.sh ]] || source ~/.common.sh
