@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   # three development boxes: CentOS 6, Debian 10 and Debian 11
   config.vm.define "centos6", primary: true do |centos6|
     centos6.vm.box = "generic/centos6"
-    centos6.vm.hostname = "CentOS6-TotalTrack"
+    centos6.vm.hostname = "DotFiles-CentOS6"
     centos6.vm.provider "virtualbox" do |vb|
       vb.name = centos6.vm.hostname
     end
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "debian11" do |debian11|
     debian11.vm.box = "generic/debian11"
-    debian11.vm.hostname = "Debian11-TotalTrack"
+    debian11.vm.hostname = "DotFiles-Debian11"
     debian11.vm.provider "virtualbox" do |vb|
       vb.name = debian11.vm.hostname
     end
