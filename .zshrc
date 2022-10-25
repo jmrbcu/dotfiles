@@ -98,14 +98,17 @@ source $ZSH/oh-my-zsh.sh
 # User configuration                                                         #
 ##############################################################################
 
-# tell zsh to split words separated by spaces
-set -o shwordsplit
-
 # Make globbing work like in bash, if it fails, then pass the original glob to as argument to the program
-setopt nonomatch
+setopt nonomatch 
+
+# tell zsh to split words separated by spaces
+setopt shwordsplit
 
 # Disable asking confirmation for rm
 setopt rm_star_silent
+
+# adds commands as they are typed, not at shell exit
+setopt inc_append_history
 
 # Make zsh know about hosts already accessed by SSH
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
