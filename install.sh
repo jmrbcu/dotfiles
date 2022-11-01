@@ -135,36 +135,38 @@ install-configs() {
   info "::: Installing configs ...\n"
 
   # diable login messages
-  info ":::   Disabling SSH welcome message"
+  info "::: Disabling SSH welcome message"
   touch $HOME/.hushlogin
 
   CWD=$(pwd)
   for conf in .common.sh .profile .bashrc .dircolors .inputrc .Xdefaults .gitconfig .gitignore .nanorc; do
     test -f $HOME/$conf && {
-      info ":::   Backing up: $HOME/$conf => $HOME/$conf.bak"
+      info "::: Backing up: $HOME/$conf => $HOME/$conf.bak"
       mv $HOME/$conf $HOME/$conf.bak
     }
 
-    info ":::   Installing config link: $HOME/$conf => $CWD/$conf"
+    info "::: Installing config link: $HOME/$conf => $CWD/$conf"
     ln -sf $CWD/$conf $HOME/$conf
+
+    printf "\n"
   done
 
-  info ":::   Installing MC config file: $HOME/.config/mc/ini"
+  info "::: Installing MC config file: $HOME/.config/mc/ini"
   mkdir -p $HOME/.config/mc && cp mc.ini $HOME/.config/mc/ini
 
   if [[ "$BASE_DIST" = "macos" ]]; then
-    info ":::   Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
-    info ":::   Restoring iTerm2 configs" && defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
+    info "::: Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
+    info "::: Restoring iTerm2 configs" && defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
 
     # dock
-    info ":::   Configuring OSX Dock"
+    info "::: Configuring OSX Dock"
     defaults write com.apple.dock minimize-to-application -bool true
     defaults write com.apple.dock show-recents -bool false
     defaults write com.apple.dock magnification -bool true
 
     # disable sudo password for admins
     if [[ ! -f /etc/sudoers.d/nopasswd ]]; then
-      info ":::   Disabling SUDO password for admin users"
+      info "::: Disabling SUDO password for admin users"
       echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
     fi
 
