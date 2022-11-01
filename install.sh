@@ -223,9 +223,10 @@ install-vim() {
     git -C https://github.com/amix/vimrc.git ~/.vim_runtime reset --hard
     git -C https://github.com/amix/vimrc.git ~/.vim_runtime clean -d --force
     git -C https://github.com/amix/vimrc.git ~/.vim_runtime pull --rebase
-    python3  ~/.vim_runtime/update_plugins.py || {
-      python2  ~/.vim_runtime/update_plugins.py { 
-        /usr/local/totaltrack/bin/python2.7 ~/.vim_runtime/update_plugins.py || {
+
+    python3  ~/.vim_runtime/update_plugins.py 2> /dev/null || {
+      python2  ~/.vim_runtime/update_plugins.py 2> /dev/null || { 
+        /usr/local/totaltrack/bin/python2.7 ~/.vim_runtime/update_plugins.py 2> /dev/null || {
           echo "Automatic Python detection failed, run this by hand: <python>  ~/.vim_runtime/update_plugins.py"
         }
       }
