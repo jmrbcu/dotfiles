@@ -132,29 +132,39 @@ install-git() {
 }
 
 install-configs() {
-  info "::: Installing dot files ...\n"
+  info "::: Installing configs ...\n"
 
   # diable login messages
+  info ":::   Disabling SSH welcome message"
   touch $HOME/.hushlogin
 
   CWD=$(pwd)
   for conf in .common.sh .profile .bashrc .dircolors .inputrc .Xdefaults .gitconfig .gitignore .nanorc; do
-    test -f $HOME/$conf && mv $HOME/$conf $HOME/$conf.bak
+    test -f $HOME/$conf && {
+      info ":::   Backing up: $HOME/$conf => $HOME/$conf.bak"
+      mv $HOME/$conf $HOME/$conf.bak
+    }
+
+    info ":::   Installing config link: $HOME/$conf => $CWD/$conf"
     ln -sf $CWD/$conf $HOME/$conf
   done
 
+  info ":::   Installing MC config file: $HOME/.config/mc/ini"
   mkdir -p $HOME/.config/mc && cp mc.ini $HOME/.config/mc/ini
+
   if [[ "$BASE_DIST" = "macos" ]]; then
-    info "::: Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
-    info "::: Restoring iTerm2 configs" && defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
+    info ":::   Restoring Finder configs" && defaults import com.apple.finder osx/finder/com.apple.finder.plist
+    info ":::   Restoring iTerm2 configs" && defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
 
     # dock
+    info ":::   Configuring OSX Dock"
     defaults write com.apple.dock minimize-to-application -bool true
     defaults write com.apple.dock show-recents -bool false
     defaults write com.apple.dock magnification -bool true
 
     # disable sudo password for admins
     if [[ ! -f /etc/sudoers.d/nopasswd ]]; then
+      info ":::   Disabling SUDO password for admin users"
       echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
     fi
 
@@ -290,6 +300,7 @@ install-zsh() {
     sudo chsh -s $(grep /zsh$ /etc/shells | tail -1) $USER
   fi
 
+  printf "\n"
   info "::: Remember to run: rm -f ~/.zcompdump; compinit when finished inside zsh shell"
   info "::: If you are getting permissions problems on OSX, run this: compaudit | xargs chmod g-w"
   printf "\n\n"
