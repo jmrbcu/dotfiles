@@ -220,9 +220,9 @@ install-vim() {
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh
   else
-    git -C https://github.com/amix/vimrc.git ~/.vim_runtime reset --hard
-    git -C https://github.com/amix/vimrc.git ~/.vim_runtime clean -d --force
-    git -C https://github.com/amix/vimrc.git ~/.vim_runtime pull --rebase
+    git -C ~/.vim_runtime reset --hard
+    git -C ~/.vim_runtime clean -d --force
+    git -C ~/.vim_runtime pull --rebase
 
     python3  ~/.vim_runtime/update_plugins.py 2> /dev/null || {
       python2  ~/.vim_runtime/update_plugins.py 2> /dev/null || { 
