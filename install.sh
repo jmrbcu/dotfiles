@@ -218,8 +218,20 @@ install-vim() {
 
   if [[ ! -d ~/.vim_runtime ]]; then
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+    sh ~/.vim_runtime/install_awesome_vimrc.sh
+  else
+    git -C https://github.com/amix/vimrc.git ~/.vim_runtime reset --hard
+    git -C https://github.com/amix/vimrc.git ~/.vim_runtime clean -d --force
+    git -C https://github.com/amix/vimrc.git ~/.vim_runtime pull --rebase
+    python3  ~/.vim_runtime/update_plugins.py || {
+      python2  ~/.vim_runtime/update_plugins.py { 
+        /usr/local/totaltrack/bin/python2.7 ~/.vim_runtime/update_plugins.py || {
+          echo "Automatic Python detection failed, run this by hand: <python>  ~/.vim_runtime/update_plugins.py"
+        }
+      }
+    }
   fi
-  sh ~/.vim_runtime/install_awesome_vimrc.sh
+  
 
   printf "\n\n"
 }
@@ -229,7 +241,6 @@ install-zsh() {
 
   if [[ "$BASE_DIST" = "macos" ]]; then
     brew install zsh
-
   elif [[ "$BASE_DIST" = "redhat" ]]; then
     sudo yum -y install zsh
   elif [[ "$BASE_DIST" = "debian" ]]; then
@@ -241,16 +252,30 @@ install-zsh() {
   # install oh-my-zsh, not using its regular install script
   if [[ ! -d ~/.oh-my-zsh ]]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  else
+    omz update
   fi
 
   # powerline10k theme
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+  if [[ ! -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+  else
+    git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull
+  fi
 
   # install zsh-syntax-highlighting
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  else
+    git -C ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting pull
+  fi
 
   # install zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  else
+    git -C ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions pull
+  fi
 
   # oh-my-zsh installation overwrote our .zshrc, put it back
   test -f ~/.zshrc && mv ~/.zshrc ~/.zshrc.bak
