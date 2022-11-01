@@ -10997,12 +10997,16 @@
 			</dict>
 			<key>Ansi 4 Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.99405109882354736</real>
+				<real>0.53333333333333333</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.74560397863388062</real>
+				<real>0.30196078431372547</real>
 				<key>Red Component</key>
-				<real>0.5230981707572937</real>
+				<real>0.19215686274509805</real>
 			</dict>
 			<key>Ansi 5 Color</key>
 			<dict>
