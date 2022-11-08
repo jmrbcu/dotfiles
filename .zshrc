@@ -21,7 +21,7 @@ export ZSH=$HOME/.oh-my-zsh
 if [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]]; then 
   ZSH_THEME="powerlevel10k/powerlevel10k"
 else
-  ZSH_THEME="robbyrussell"
+  ZSH_THEME="afowler"
 fi
 
 # Set list of themes to pick from when loading at random
