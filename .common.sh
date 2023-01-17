@@ -3,7 +3,7 @@
 #################################################################################
 
 # path
-custom="$HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/local/opt/ruby/bin"
+custom="$HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/local/opt/ruby/bin $HOME/.dotnet/tools"
 for P in $custom; do
   test -d $P && export PATH=$P:$PATH
 done
