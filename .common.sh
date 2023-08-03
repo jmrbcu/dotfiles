@@ -21,8 +21,8 @@ EDITOR="$(command -v vim 2>/dev/null || command -v nano)"
 
 alias du="du -h -s"
 alias df="df -h"
-alias py='echo "ipython is not installed"'
-command -v ipython >/dev/null 2>&1 && alias py=ipython
+alias py=ipython
+alias mc="mc -u -X"
 
 #################################################################################
 # Utility Functions
