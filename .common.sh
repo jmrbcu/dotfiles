@@ -61,9 +61,10 @@ function forward() {
 # capture traffic from a remote server
 function remote-capture() {
   if [ "$#" -eq 2 ]; then
-    ssh -q -N -C $1 "tcpdump -i $2 -U -s0 -w -" | wireshark -k -i -
+    ssh $1 'dumpcap -w - -i $2 -f "not port 22"' | wireshark -k -i -
   elif [ "$#" -eq 3 ]; then
-    ssh -q -N -C -p $2 $1 "tcpdump -i $3 -U -s0 -w -" | wireshark -k -i -
+    # ssh -q -N -C -p $2 $1 "tcpdump -i $3 -U -s0 -w -" | wireshark -k -i -
+    ssh -p $2 $1 'dumpcap -w - -i $3 -f "not port 22"' | wireshark -k -i -
   else
     echo "::: Usage:"
     echo ":::    remote-capture <[user@]host> [ssh-port] <iface>\n"
