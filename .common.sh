@@ -79,12 +79,21 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Use GNU ls instead of BSD ls if available
   alias ls="ls -hlGF"
   alias la="ls -hlGFA"
-  command -v gls >/dev/null 2>&1 && {
+
+  if $(command -v exa >/dev/null 2>&1); then
+    alias ls="exa -hl --group-directories-first --git"
+    alias la="exa -hla --group-directories-first --git"
+  elif $(command -v gls >/dev/null 2>&1); then
     alias ls="gls -hlF --color=always --group-directories-first"
     alias la="gls -hlAF --color=always --group-directories-first"
-  }
+  fi
 else
   # Command Aliases
   alias ls="ls -hlF --color=always --group-directories-first"
   alias la="ls -hlAF --color=always --group-directories-first"
+
+  if $(command -v exa >/dev/null 2>&1); then
+    alias ls="exa -hl --group-directories-first --git"
+    alias la="exa -hla --group-directories-first --git"
+  fi
 fi
