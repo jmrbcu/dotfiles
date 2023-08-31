@@ -22,7 +22,7 @@ EDITOR="$(command -v vim 2>/dev/null || command -v nano)"
 alias du="du -h -s"
 alias df="df -h"
 alias py=ipython
-alias mc="mc -u -X"
+alias mc="mc -u"
 
 #################################################################################
 # Utility Functions
