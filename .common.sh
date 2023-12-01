@@ -61,10 +61,10 @@ function forward() {
 # capture traffic from a remote server
 function remote-capture() {
   if [ "$#" -eq 2 ]; then
-    ssh -q $1 "dumpcap -w - -i $2 -f 'not port 22'" | wireshark -k -i -
+    ssh -q $1 "dumpcap -w - -i $2 -f 'not port 22 and not port 1194'" | wireshark -k -i -
   elif [ "$#" -eq 3 ]; then
     # ssh -q -N -C -p $2 $1 "tcpdump -i $3 -U -s0 -w -" | wireshark -k -i -
-    ssh -q $1 -p $2 "dumpcap -w - -i $2 -f 'not port 22'" | wireshark -k -i -
+    ssh -q $1 -p $2 "dumpcap -w - -i $2 -f 'not port 22 and not port 1194'" | wireshark -k -i -
   else
     echo "::: Usage:"
     echo ":::    remote-capture <[user@]host> [ssh-port] <iface>\n"
@@ -80,9 +80,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias ls="ls -hlGF"
   alias la="ls -hlGFA"
 
-  if $(command -v exa >/dev/null 2>&1); then
-    alias ls="exa -hl --group-directories-first --git"
-    alias la="exa -hla --group-directories-first --git"
+  if $(command -v eza >/dev/null 2>&1); then
+    alias ls="eza -hl --group-directories-first --git"
+    alias la="eza -hla --group-directories-first --git"
   elif $(command -v gls >/dev/null 2>&1); then
     alias ls="gls -hlF --color=always --group-directories-first"
     alias la="gls -hlAF --color=always --group-directories-first"
@@ -92,8 +92,8 @@ else
   alias ls="ls -hlF --color=always --group-directories-first"
   alias la="ls -hlAF --color=always --group-directories-first"
 
-  if $(command -v exa >/dev/null 2>&1); then
-    alias ls="exa -hl --group-directories-first --git"
-    alias la="exa -hla --group-directories-first --git"
+  if $(command -v eza >/dev/null 2>&1); then
+    alias ls="eza -hl --group-directories-first --git"
+    alias la="eza -hla --group-directories-first --git"
   fi
 fi
