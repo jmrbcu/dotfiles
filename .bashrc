@@ -26,12 +26,13 @@ if [[ "$OSTYPE" == darwin* ]]; then
     [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 fi
 
-# enable pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
+# pyenv
+command -v pyenv >/dev/null && {
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
-fi
+  eval "$(pyenv virtualenv-init -)"
+}
 
 # include our custom config for both: zsh and bash
 [[ ! -f ~/.common.sh ]] || source ~/.common.sh

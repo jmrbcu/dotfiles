@@ -2,12 +2,6 @@
 # General Options
 #################################################################################
 
-# path
-custom="$HOME/.local/bin /usr/local/bin /usr/local/sbin /usr/local/opt/ruby/bin $HOME/.dotnet/tools"
-for P in $custom; do
-  test -d $P && export PATH=$P:$PATH
-done
-
 # Set the default Less options.
 export LESS='-c -g -i -M -R -S -w -X -z-4'
 # command -v source-highlight >/dev/null 2>&1 && export LESSOPEN="| $HOME/.dotfiles/less.sh %s"
