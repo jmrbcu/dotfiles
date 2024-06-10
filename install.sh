@@ -163,6 +163,9 @@ install_system() {
   done
 
   if [[ "$OS" = "darwin" ]]; then
+    info "Installing fonst into: '$HOME/Library/Fonts'"
+    wget -qO- https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip | bsdtar -xvf- -C ~/Library/Fonts
+
     # defaults import com.apple.finder osx/finder/com.apple.finder.plist
     # defaults import com.googlecode.iterm2 osx/iterm2/com.googlecode.iterm2.plist
     defaults write com.apple.dock minimize-to-application -bool true
