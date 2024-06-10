@@ -109,13 +109,6 @@ install_system() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   fi
 
-  # powerline10k theme
-  if [[ ! -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
-  else
-    git -C "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k pull
-  fi
-
   # install zsh-syntax-highlighting
   if [[ ! -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
@@ -138,6 +131,11 @@ install_system() {
   printf "\n\n"
 
   info "::: Installing config files ...\n"
+
+  # remove p10k (unsupported)
+  test -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" && rm -rf "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+  test -f "$HOME/.p10k.zsh" && rm -f "$HOME/.p10k.zsh"
+
   # disable sudo password for admins
   if [[ ! -f /etc/sudoers.d/nopasswd ]]; then
     echo "%admin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/nopasswd >/dev/null
@@ -154,7 +152,7 @@ install_system() {
   info "Installing '$HOME/.config/mc/ini'"
   cp mc.ini "$HOME/.config/mc/ini"
 
-  for conf in .zshrc .p10k.zsh .bashrc .common.sh .dircolors .inputrc .Xdefaults .gitconfig .gitignore .nanorc; do
+  for conf in .zshrc .bashrc .dircolors .inputrc .Xdefaults .gitconfig .gitignore .nanorc; do
     test -f "$HOME/$conf" && {
       mv "$HOME/$conf" "$HOME/$conf.bak"
       info "Backing up '$HOME/$conf' -> '$HOME/$conf.bak'"

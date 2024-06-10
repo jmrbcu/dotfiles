@@ -1,13 +1,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -18,11 +11,7 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-if [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]]; then 
-  ZSH_THEME="powerlevel10k/powerlevel10k"
-else
-  ZSH_THEME="afowler"
-fi
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -94,9 +83,7 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
-##############################################################################
 # User configuration                                                         #
-##############################################################################
 
 # Make globbing work like in bash, if it fails, then pass the original glob to as argument to the program
 setopt nonomatch 
@@ -121,15 +108,6 @@ zstyle ":completion:*:commands" rehash 1
 # autoload -Uz compinit
 # compinit
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-if [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]]; then
-  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-fi
-
-#################################################################################
-# General Options
-#################################################################################
-
 # Set the default Less options.
 export LESS='-c -g -i -M -R -S -w -X -z-4'
 # command -v source-highlight >/dev/null 2>&1 && export LESSOPEN="| $HOME/.dotfiles/less.sh %s"
@@ -137,18 +115,10 @@ export LESS='-c -g -i -M -R -S -w -X -z-4'
 # Preferred editor for local and remote sessions, in this order: vim, nano
 EDITOR="$(command -v vim 2>/dev/null || command -v nano)"
 
-#################################################################################
-# Command Aliases
-#################################################################################
-
 alias du="du -h -s"
 alias df="df -h"
 alias py=ipython
 alias mc="mc -u"
-
-#################################################################################
-# Utility Functions
-#################################################################################
 
 # creates a local socks proxy using the remote server as exit point
 function proxy() {
