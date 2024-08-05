@@ -4,6 +4,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# homebrew completions
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -75,7 +78,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(gitfast history-substring-search colored-man-pages colorize pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions)
 if [[ "$OSTYPE" == darwin* ]]; then
-    plugins+=(gnu-utils macos xcode)
+    plugins+=(brew gnu-utils macos xcode)
 fi
 
 # HACK FOR ZSH COMPLETIONS
