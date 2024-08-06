@@ -5,7 +5,9 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # homebrew completions
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+if [[ "$OSTYPE" == darwin* ]]; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -38,7 +40,7 @@ ZSH_THEME="robbyrussell"
 # zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
