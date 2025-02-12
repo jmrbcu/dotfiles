@@ -169,7 +169,7 @@ function remote-capture() {
 }
 
 if [[ "$OSTYPE" == darwin* ]]; then
-  # Use GNU ls instead of BSD ls if available
+  export COPYFILE_DISABLE=1
   alias ls="ls -hlGF"
   alias la="ls -hlGFA"
 
@@ -181,7 +181,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias la="gls -hlAF --color=always --group-directories-first"
   fi
 else
-  # Command Aliases
   alias ls="ls -hlF --color=always --group-directories-first"
   alias la="ls -hlAF --color=always --group-directories-first"
 
