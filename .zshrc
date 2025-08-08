@@ -80,6 +80,10 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
+# python plugin config
+PYTHON_AUTO_VRUN=true
+PYTHON_VENV_NAME=".venv"
+
 plugins=(gitfast history-substring-search colored-man-pages colorize python pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(brew gnu-utils macos xcode)
