@@ -79,7 +79,8 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitfast history-substring-search colored-man-pages colorize pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions)
+
+plugins=(gitfast history-substring-search colored-man-pages colorize python pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(brew gnu-utils macos xcode)
 fi
