@@ -3,6 +3,7 @@
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="/opt/homebrew/opt/cpio/bin:$PATH"
 
 # homebrew completions
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -84,7 +85,7 @@ ZSH_THEME="spaceship"
 PYTHON_AUTO_VRUN=true
 PYTHON_VENV_NAME=".venv"
 
-plugins=(gitfast history-substring-search colored-man-pages colorize python pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(gitfast history-substring-search colored-man-pages colorize python pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions fzf)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(brew gnu-utils macos xcode)
 fi
