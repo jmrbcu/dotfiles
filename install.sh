@@ -92,6 +92,14 @@ else
   git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" pull
 fi
 
+# install spaceship theme
+if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
+  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+else
+  git -C "$ZSH_CUSTOM/themes/spaceship-prompt" pull
+fi
+
 
 # install our config files
 info "*** Installing configuration files ***\n"
