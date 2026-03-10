@@ -33,3 +33,5 @@
 	hide-dirty = 1
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
