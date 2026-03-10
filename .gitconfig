@@ -2,7 +2,7 @@
 	name = Jose Rodriguez
 	email = jmrbcu@gmail.com
 [credential]
-	helper = cache --timeout=3600
+	helper = store
 [core]
 	editor = code --wait
 	autocrlf = input
