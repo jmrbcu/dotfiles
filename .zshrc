@@ -3,7 +3,7 @@
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="/opt/homebrew/opt/cpio/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/homebrew/opt/cpio/bin:$PATH"
 
 # homebrew completions
 if [[ "$OSTYPE" == darwin* ]]; then
