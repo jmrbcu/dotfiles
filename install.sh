@@ -93,11 +93,11 @@ else
 fi
 
 # install spaceship theme
-if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+if [[ ! -d "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" ]]; then
+  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1
+  ln -s "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 else
-  git -C "$ZSH_CUSTOM/themes/spaceship-prompt" pull
+  git -C "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" pull
 fi
 
 
