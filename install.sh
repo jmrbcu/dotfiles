@@ -68,9 +68,11 @@ else
 fi
 
 info "*** Installing Oh My ZSH ***\n"
+ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+
 
 # remove p10k (unsupported)
-test -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" && rm -rf "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+test -d "$ZSH_CUSTOM/themes/powerlevel10k" && rm -rf "$ZSH_CUSTOM/themes/powerlevel10k"
 test -f "$HOME/.p10k.zsh" && rm -f "$HOME/.p10k.zsh"
 
 # install oh-my-zsh
@@ -79,26 +81,26 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
 fi
 
 # install zsh-syntax-highlighting
-if [[ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]]; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 else
-  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" pull
+  git -C "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" pull
 fi
 
 # install zsh-autosuggestions
-if [[ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]]; then
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 else
-  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" pull
+  git -C "$ZSH_CUSTOM/plugins/zsh-autosuggestions" pull
 fi
 
 # install spaceship theme
-if [[ ! -d "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" ]]; then
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1
-  ln -s "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
+  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 else
-  git -C "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" pull
+  git -C "$ZSH_CUSTOM/themes/spaceship-prompt" pull
 fi
+ln -sf "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
 
 # install our config files
