@@ -85,7 +85,7 @@ ZSH_THEME="spaceship"
 PYTHON_AUTO_VRUN=true
 PYTHON_VENV_NAME=".venv"
 
-plugins=(gitfast history-substring-search colored-man-pages colorize python pyenv nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions fzf)
+plugins=(gitfast history-substring-search colored-man-pages colorize python nmap httpie vagrant zsh-interactive-cd zsh-syntax-highlighting zsh-autosuggestions fzf)
 if [[ "$OSTYPE" == darwin* ]]; then
     plugins+=(brew gnu-utils macos xcode)
 fi
