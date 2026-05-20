@@ -50,3 +50,6 @@ alias du="du -h -s"
 alias df="df -h"
 alias ls="ls -hlF --color=always --group-directories-first"
 alias la="ls -hlAF --color=always --group-directories-first"
+
+# initialize startship
+eval "$(starship init bash)"
